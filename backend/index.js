@@ -1,8 +1,8 @@
 const WebSocketServer = require('websocket').server;
 const http = require('http');
 
-const { HttpCodes, MessageType } = require('./lib/shared/constants');
-const { logMessage } = require('./lib/shared/utils');
+const { Event, HttpCodes, MessageType } = require('./lib/shared/constants');
+const { createPayload, logMessage } = require('./lib/shared/utils');
 const { createUser } = require('./lib/ws/users-manager');
 const Db = require('./domain/db');
 
@@ -45,17 +45,18 @@ wsServer.on('request', function(request) {
   logMessage('Connection accepted');
   const user = createUser();
   Db.addUser(user);
+  connection.send(createPayload(Event.UserCreated, user.toString()));
 
-  connection.on('message', function(message) {
-    if (message.type === MessageType.Utf8) {
-      logMessage(`Received Message: ${message.utf8Data}`);
-      connection.sendUTF(message.utf8Data);
-    }
-    else if (message.type === MessageType.Binary) {
-      logMessage(`Received Binary Message of ${message.binaryData.length} bytes`);
-      connection.sendBytes(message.binaryData);
-    }
-  });
+  // connection.on('message', function(message) {
+  //   if (message.type === MessageType.Utf8) {
+  //     logMessage(`Received Message: ${message.utf8Data}`);
+  //     connection.sendUTF(message.utf8Data);
+  //   }
+  //   else if (message.type === MessageType.Binary) {
+  //     logMessage(`Received Binary Message of ${message.binaryData.length} bytes`);
+  //     connection.sendBytes(message.binaryData);
+  //   }
+  // });
   connection.on('close', function(reasonCode, description) {
     logMessage(`Peer ${connection.remoteAddress} disconnected.`);
   });

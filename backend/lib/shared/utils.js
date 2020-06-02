@@ -10,7 +10,15 @@ const idGenerator = function* () {
   }
 };
 
+const createPayload = (eventType, data) => {
+  return JSON.stringify({
+    type: eventType,
+    data,
+  });
+};
+
 module.exports = {
+  createPayload,
   logMessage,
   idGenerator: idGenerator(),
 };

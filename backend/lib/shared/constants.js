@@ -7,7 +7,12 @@ const MessageType = {
   Binary: 'binary'
 };
 
+const Event = {
+  UserCreated: 'USER_CREATED',
+};
+
 module.exports = {
+  Event,
   HttpCodes,
   MessageType,
 };
