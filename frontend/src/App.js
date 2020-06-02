@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+function App({ socket }) {
+  useEffect(() => {
+    console.log('component did mount');
+    socket.send('Hello, world');
+  }, [socket]);
+
   return (
     <div className="App">
       <header className="App-header">

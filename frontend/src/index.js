@@ -4,12 +4,17 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const socket = new WebSocket('ws://localhost:8080', 'echo-protocol');
+
+// TODO: handle on error
+socket.onopen = () => {
+  ReactDOM.render(
+    <React.StrictMode>
+      <App socket={socket} />
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
+};
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
