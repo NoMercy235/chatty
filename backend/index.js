@@ -3,6 +3,8 @@ const http = require('http');
 
 const { HttpCodes, MessageType } = require('./lib/shared/constants');
 const { logMessage } = require('./lib/shared/utils');
+const { createUser } = require('./lib/ws/users-manager');
+const Db = require('./domain/db');
 
 const server = http.createServer(function(request, response) {
   logMessage(`Received request for ${request.url}`);
@@ -41,6 +43,9 @@ wsServer.on('request', function(request) {
   }
 
   logMessage('Connection accepted');
+  const user = createUser();
+  Db.addUser(user);
+
   connection.on('message', function(message) {
     if (message.type === MessageType.Utf8) {
       logMessage(`Received Message: ${message.utf8Data}`);
