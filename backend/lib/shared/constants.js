@@ -9,6 +9,11 @@ const MessageType = {
 
 const Event = {
   UserCreated: 'USER_CREATED',
+  WsNative: {
+    Request: 'request',
+    Message: 'message',
+    Close: 'close',
+  },
 };
 
 module.exports = {

@@ -26,7 +26,7 @@ function originIsAllowed(origin) {
   return true;
 }
 
-wsServer.on('request', function(request) {
+wsServer.on(Event.WsNative.Request, function(request) {
   if (!originIsAllowed(request.origin)) {
     // Make sure we only accept requests from an allowed origin
     request.reject();
@@ -47,7 +47,7 @@ wsServer.on('request', function(request) {
   Db.addUser(user);
   connection.send(createPayload(Event.UserCreated, user.toString()));
 
-  // connection.on('message', function(message) {
+  // connection.on(Event.WsNative.Message, function(message) {
   //   if (message.type === MessageType.Utf8) {
   //     logMessage(`Received Message: ${message.utf8Data}`);
   //     connection.sendUTF(message.utf8Data);
@@ -57,7 +57,7 @@ wsServer.on('request', function(request) {
   //     connection.sendBytes(message.binaryData);
   //   }
   // });
-  connection.on('close', function(reasonCode, description) {
+  connection.on(Event.WsNative.Close, function(reasonCode, description) {
     logMessage(`Peer ${connection.remoteAddress} disconnected.`);
   });
 });
