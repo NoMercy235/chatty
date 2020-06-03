@@ -1,20 +1,23 @@
 import React, { useEffect, useReducer } from 'react';
 
 import { User } from './domain/user';
-import { AppTab, WsEvent } from './shared/constants';
+import { AppTab, AppEvent } from './shared/constants';
 import { AppHeader } from './components/AppHeader/AppHeader';
 import { Tabs } from './components/Tabs/Tabs';
-import { isParticipantsTab } from './shared/utils';
+import { isChatTab, isParticipantsTab } from './shared/utils';
 import { UsersTab } from './components/UsersTab/UsersTab';
+import { ChatTab } from './components/ChatTab/ChatTab';
 
 import './App.css';
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case WsEvent.UserCreated:
+    case AppEvent.UserCreated:
       return { ...state, user: new User(action.data) };
-    case WsEvent.GetUsers:
+    case AppEvent.GetUsers:
       return { ...state, users: action.data.map(u => new User(u)) };
+    case AppEvent.TabChange:
+      return { ...state, currentTab: action.data };
     default:
       return state;
   }
@@ -46,11 +49,20 @@ function App() {
     // TODO: handle on error
   }, []);
 
+  const onTabChange = newTab => {
+    dispatch({ type: AppEvent.TabChange, data: newTab });
+  };
+
   return (
     <>
       <AppHeader/>
-      <Tabs selected={state.currentTab} users={state.users}/>
+      <Tabs
+        selected={state.currentTab}
+        users={state.users}
+        onTabChange={onTabChange}
+      />
       {isParticipantsTab(state.currentTab) && <UsersTab users={state.users}/>}
+      {isChatTab(state.currentTab) && <ChatTab/>}
     </>
   );
 }
