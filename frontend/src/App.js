@@ -4,6 +4,8 @@ import { User } from './domain/user';
 import { AppTab, WsEvent } from './shared/constants';
 import { AppHeader } from './components/AppHeader/AppHeader';
 import { Tabs } from './components/Tabs/Tabs';
+import { isParticipantsTab } from './shared/utils';
+import { UsersTab } from './components/UsersTab/UsersTab';
 
 import './App.css';
 
@@ -48,11 +50,7 @@ function App() {
     <>
       <AppHeader/>
       <Tabs selected={state.currentTab} users={state.users}/>
-      <div>UserID: {state.user?.id}</div>
-      <div>Users</div>
-      {state.users.map(user => {
-        return <div key={user.id}>{user.id}</div>;
-      })}
+      {isParticipantsTab(state.currentTab) && <UsersTab users={state.users}/>}
     </>
   );
 }

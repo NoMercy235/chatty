@@ -1,7 +1,7 @@
 import React from 'react';
 import * as classNames from 'classnames';
 
-import { AppTab } from '../../shared/constants';
+import { isChatTab, isParticipantsTab } from '../../shared/utils';
 
 import * as styles from './Tabs.module.scss';
 
@@ -11,7 +11,7 @@ export const Tabs = ({ selected, users }) => {
       <h3
         className={classNames(
           styles.tabBtn,
-          { [styles.selected]: selected === AppTab.Participants }
+          { [styles.selected]: isParticipantsTab(selected) }
         )}
       >
         Participants ({users.length})
@@ -19,7 +19,7 @@ export const Tabs = ({ selected, users }) => {
       <h3
         className={classNames(
           styles.tabBtn,
-          { [styles.selected]: selected === AppTab.Chat }
+          { [styles.selected]: isChatTab(selected) }
         )}
       >
         Chat
