@@ -14,6 +14,7 @@ export const ChatTab = ({ messages, onSendMessage }) => {
   const onMessageKeyDown = e => {
     if (e.ctrlKey && e.keyCode === KeyCode.Enter) {
       onSendMessage(message);
+      setMessage('');
     }
   };
 
