@@ -9,10 +9,10 @@ The client side part of the "Chatty" project.
     - No store manager (will use internal state)
 
 #### Objectives:
- - [ ] Build a user interface similar to the one used in `../initial-resources/*.png`
- - [ ] Connect to the backend through Web Sockets
-    - [ ] See a list of current users
-    - [ ] Send messages to the chat
+ - [x] Build a user interface similar to the one used in `../initial-resources/*.png`
+ - [x] Connect to the backend through Web Sockets
+    - [x] See a list of current users
+    - [x] Send messages to the chat
  - [ ] Edit/Delete your own messages but leave their trace
  
  ###### Optional objectives:
