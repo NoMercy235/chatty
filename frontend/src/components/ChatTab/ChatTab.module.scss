@@ -1,0 +1,16 @@
+@import '../../shared/scss/variables.module';
+
+.container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: $spacing-04;
+
+  .messagesContainer {
+    flex: 1;
+  }
+
+  .textArea {
+    resize: none;
+  }
+}
