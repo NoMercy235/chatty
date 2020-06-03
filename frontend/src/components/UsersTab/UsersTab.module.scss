@@ -1,0 +1,6 @@
+@import '../../shared/scss/variables.module';
+
+.userRow {
+  padding: $spacing-05;
+  border-bottom: 1px solid $user-separation-border-color;
+}

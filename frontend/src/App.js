@@ -113,6 +113,7 @@ function App() {
       )}
       {isChatTab(state.currentTab) && (
         <ChatTab
+          currentUser={state.user}
           users={state.users}
           messages={state.messages}
           onSendMessage={onSendMessage}

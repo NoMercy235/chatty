@@ -6,7 +6,7 @@ import { formatDate } from '../../shared/utils';
 
 import * as styles from './ChatTab.module.scss';
 
-export const ChatTab = ({ users, messages, onSendMessage }) => {
+export const ChatTab = ({ currentUser, users, messages, onSendMessage }) => {
   const [message, setMessage] = useState('');
   const messagesRef = useRef(null);
 
@@ -34,6 +34,7 @@ export const ChatTab = ({ users, messages, onSendMessage }) => {
             <MessageEntry
               key={message.createdAt.getTime()}
               type={message.type}
+              currentUser={currentUser}
               source={author}
               when={formatDate(message.createdAt)}
               message={message.message}
