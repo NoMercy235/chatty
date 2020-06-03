@@ -10,4 +10,8 @@ export class Message {
     this.isDeleted = isDeleted || false;
     this.type = type || UserMessageType.Message;
   }
+
+  get isEdited () {
+    return (this.updatedAt?.getTime() - this.createdAt?.getTime()) !== 0;
+  }
 }

@@ -56,7 +56,12 @@ export const MessageEntry = ({ currentUser, message, source, onEditMessage, onDe
           <UserEntry user={source} isYou={isYou} />
         </div>
         {source.isInactive && <i className={styles.inactiveText}>(inactive)</i>}
-        <div className={styles.when}><i>{formatDate(message.createdAt)}</i></div>
+        <div className={classNames(styles.date, styles.when)}><i>{formatDate(message.createdAt)}</i></div>
+        {message.isEdited && (
+          <div className={styles.date}>
+            (Edited on <i>{formatDate(message.updatedAt)}</i>)
+          </div>
+        )}
         {isYou && !message.isDeleted && (
           <>
             <ClickableText
