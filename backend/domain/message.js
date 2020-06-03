@@ -1,7 +1,9 @@
+const { idGenerator } = require('../lib/shared/utils');
 const { UserMessageType } = require('../lib/shared/constants');
 
 class Message {
-  constructor ({ message, author, createdAt, updatedAt, isDeleted, type }) {
+  constructor ({ id, message, author, createdAt, updatedAt, isDeleted, type }) {
+    this.id = id || idGenerator.next().value;
     this.message = message;
     this.author = author;
     this.createdAt = createdAt || new Date();
@@ -12,6 +14,7 @@ class Message {
 
   forApi = () => {
     return {
+      id: this.id,
       message: this.message,
       author: this.author,
       createdAt: this.createdAt.toISOString(),

@@ -88,6 +88,10 @@ function App() {
     socket.send(createPayload(AppEvent.SendMessage, data));
   };
 
+  const onDeleteMessage = messageId => {
+    socket.send(createPayload(AppEvent.DeleteMessage, messageId));
+  };
+
   if (isPickNameTab(state.currentTab)) {
     return (
       <PickNameTab onPickName={onPickName} />
@@ -117,6 +121,7 @@ function App() {
           users={state.users}
           messages={state.messages}
           onSendMessage={onSendMessage}
+          onDeleteMessage={onDeleteMessage}
         />
       )}
     </>

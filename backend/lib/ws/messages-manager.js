@@ -5,11 +5,16 @@ const { Event, UserMessageType } = require('../shared/constants');
 const { createPayload } = require('../shared/utils');
 
 const handleMessages = (wsServer, action) => {
+  let message;
   switch (action.type) {
     case Event.SendMessage:
-      const message = new Message(action.data);
+      message = new Message(action.data);
       Db.addMessage(message);
       wsServer.broadcast(createPayload(Event.SendMessage, message));
+      break;
+    case Event.DeleteMessage:
+      Db.deleteMessage(action.data);
+      wsServer.broadcast(createPayload(Event.GetMessages, Db.getMessages()));
   }
 };
 

@@ -6,7 +6,7 @@ import { formatDate } from '../../shared/utils';
 
 import * as styles from './ChatTab.module.scss';
 
-export const ChatTab = ({ currentUser, users, messages, onSendMessage }) => {
+export const ChatTab = ({ currentUser, users, messages, onSendMessage, onDeleteMessage }) => {
   const [message, setMessage] = useState('');
   const messagesRef = useRef(null);
 
@@ -25,6 +25,10 @@ export const ChatTab = ({ currentUser, users, messages, onSendMessage }) => {
     }
   };
 
+  const onHandleDeleteMessage = (messageId) => () => {
+    onDeleteMessage(messageId);
+  };
+
   return (
     <div className={styles.container}>
       <div ref={messagesRef} className={styles.messagesContainer}>
@@ -32,12 +36,13 @@ export const ChatTab = ({ currentUser, users, messages, onSendMessage }) => {
           const author = users.find(({ id }) => id === message.author);
           return (
             <MessageEntry
-              key={message.createdAt.getTime()}
+              key={message.id}
               type={message.type}
               currentUser={currentUser}
               source={author}
               when={formatDate(message.createdAt)}
               message={message.message}
+              onDeleteMessage={onHandleDeleteMessage(message.id)}
             />
           );
         })}

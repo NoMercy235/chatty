@@ -37,6 +37,12 @@ class Db {
     this.messages.push(message);
   };
 
+  deleteMessage = (messageId) => {
+    const message = this.messages.find(({ id }) => id === messageId);
+    message.isDeleted = true;
+    message.message = 'This message has been deleted';
+  };
+
   getMessages = () => {
     return this.messages.map(message => message.forApi());
   };

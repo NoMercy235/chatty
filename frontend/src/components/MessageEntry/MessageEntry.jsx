@@ -7,7 +7,7 @@ import { ClickableText } from '../ClickableText/ClickableText';
 
 import * as styles from './MessageEntry.module.scss';
 
-export const MessageEntry = ({ currentUser, type, source, when, message }) => {
+export const MessageEntry = ({ currentUser, type, source, when, message, onDeleteMessage }) => {
   const isYou = currentUser.id === source.id;
 
   return (
@@ -23,7 +23,11 @@ export const MessageEntry = ({ currentUser, type, source, when, message }) => {
         {isYou && (
           <>
             <ClickableText className={styles.action} text="Edit"/>
-            <ClickableText className={styles.action} text="Delete"/>
+            <ClickableText
+              className={styles.action}
+              text="Delete"
+              onClick={onDeleteMessage}
+            />
           </>
         )}
       </div>

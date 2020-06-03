@@ -1,7 +1,8 @@
 import { UserMessageType } from '../shared/constants';
 
 export class Message {
-  constructor ({ message, author, createdAt, updatedAt, isDeleted, type }) {
+  constructor ({ id, message, author, createdAt, updatedAt, isDeleted, type }) {
+    this.id = id;
     this.message = message;
     this.author = author;
     this.createdAt = createdAt ? new Date(createdAt) : undefined;
