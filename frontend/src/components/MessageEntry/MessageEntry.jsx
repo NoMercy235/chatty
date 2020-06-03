@@ -4,10 +4,11 @@ import * as classNames from 'classnames';
 import { UserMessageType } from '../../shared/constants';
 import { UserEntry } from '../UserEntry/UserEntry';
 import { ClickableText } from '../ClickableText/ClickableText';
+import { formatDate } from '../../shared/utils';
 
 import * as styles from './MessageEntry.module.scss';
 
-export const MessageEntry = ({ currentUser, type, source, when, message, onDeleteMessage }) => {
+export const MessageEntry = ({ currentUser, message, source, onDeleteMessage }) => {
   const isYou = currentUser.id === source.id;
 
   return (
@@ -19,8 +20,8 @@ export const MessageEntry = ({ currentUser, type, source, when, message, onDelet
           <UserEntry user={source} isYou={isYou} />
         </div>
         {source.isInactive && <i className={styles.inactiveText}>(inactive)</i>}
-        <div className={styles.when}><i>{when}</i></div>
-        {isYou && (
+        <div className={styles.when}><i>{formatDate(message.createdAt)}</i></div>
+        {isYou && !message.isDeleted && (
           <>
             <ClickableText className={styles.action} text="Edit"/>
             <ClickableText
@@ -31,8 +32,8 @@ export const MessageEntry = ({ currentUser, type, source, when, message, onDelet
           </>
         )}
       </div>
-      <div className={classNames({ [styles.infoMessage]: type === UserMessageType.Info})}>
-        {message}
+      <div className={classNames({ [styles.infoMessage]: message.type === UserMessageType.Info})}>
+        {message.message}
       </div>
     </div>
   );

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 
 import { KeyCode } from '../../shared/constants';
 import { MessageEntry } from '../MessageEntry/MessageEntry';
-import { formatDate } from '../../shared/utils';
 
 import * as styles from './ChatTab.module.scss';
 
@@ -37,11 +36,9 @@ export const ChatTab = ({ currentUser, users, messages, onSendMessage, onDeleteM
           return (
             <MessageEntry
               key={message.id}
-              type={message.type}
+              message={message}
               currentUser={currentUser}
               source={author}
-              when={formatDate(message.createdAt)}
-              message={message.message}
               onDeleteMessage={onHandleDeleteMessage(message.id)}
             />
           );
