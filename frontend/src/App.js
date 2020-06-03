@@ -76,6 +76,10 @@ function App() {
     socket.send(createPayload(AppEvent.SetUser, updatedUser));
   };
 
+  const onChangeName = () => {
+    dispatch({ type: AppEvent.TabChange, data: AppTab.PickName });
+  };
+
   const onSendMessage = message => {
     const data = {
       message,
@@ -92,7 +96,10 @@ function App() {
 
   return (
     <>
-      <AppHeader/>
+      <AppHeader
+        user={state.user}
+        onChangeName={onChangeName}
+      />
       <Tabs
         selected={state.currentTab}
         noOfUsers={state.activeUsers.length}

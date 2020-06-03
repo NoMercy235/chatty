@@ -3,7 +3,21 @@
 .container {
   background-color: $gray-bg-color;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: $app-header-font-size;
+
+  .nameIdentifier {
+    margin-bottom: $spacing-05;
+
+    .changeNameText {
+      color: $blue-text-color;
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
 }
