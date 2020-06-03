@@ -44,14 +44,19 @@ wsServer.on(Event.WsNative.Request, function(request) {
 
   logMessage('Connection accepted');
   const user = createUser();
-  Db.addUser(user);
+  Db.addUser(user, connection);
   connection.send(createPayload(Event.SetUser, user.forApi()));
   connection.send(createPayload(Event.GetUsers, Db.getUsers()))
+  /**
+   * If the user is new, then this broadcast will have no effect since the new
+   * user has no name and, thus, will not be included in the result of Db.getUsers()
+   */
+  wsServer.broadcast(createPayload(Event.GetUsers, Db.getUsers()));
 
   connection.on(Event.WsNative.Message, function(message) {
     if (message.type === MessageType.Utf8) {
       const parsedMessage = JSON.parse(message.utf8Data);
-      handleUsersMessages(connection, parsedMessage);
+      handleUsersMessages(wsServer, connection, parsedMessage);
       logMessage(`Received Message: ${message.utf8Data}`);
     }
   });
@@ -59,5 +64,6 @@ wsServer.on(Event.WsNative.Request, function(request) {
   connection.on(Event.WsNative.Close, function(reasonCode, description) {
     logMessage(`Peer ${connection.remoteAddress} disconnected.`);
     Db.removeUser(user.id);
+    wsServer.broadcast(createPayload(Event.GetUsers, Db.getUsers()));
   });
 });
