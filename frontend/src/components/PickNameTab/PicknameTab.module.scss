@@ -1,0 +1,20 @@
+@import '../../shared/scss/variables.module';
+
+.container {
+  height: 100%;
+  background-color: $gray-bg-color;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  .pickNameForm {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+
+    & > *:not(last-child) {
+      margin-bottom: $spacing-04;
+    }
+  }
+}

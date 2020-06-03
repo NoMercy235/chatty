@@ -4,9 +4,10 @@ import { User } from './domain/user';
 import { AppTab, AppEvent } from './shared/constants';
 import { AppHeader } from './components/AppHeader/AppHeader';
 import { Tabs } from './components/Tabs/Tabs';
-import { isChatTab, isParticipantsTab } from './shared/utils';
+import { isChatTab, isParticipantsTab, isPickNameTab } from './shared/utils';
 import { UsersTab } from './components/UsersTab/UsersTab';
 import { ChatTab } from './components/ChatTab/ChatTab';
+import { PickNameTab } from './components/PickNameTab/PickNameTab';
 
 import './App.css';
 
@@ -24,7 +25,7 @@ const reducer = (state, action) => {
 }
 
 const initialState = {
-  currentTab: AppTab.Participants,
+  currentTab: AppTab.PickName,
   user: undefined,
   users: [],
   messages: [],
@@ -52,6 +53,12 @@ function App() {
   const onTabChange = newTab => {
     dispatch({ type: AppEvent.TabChange, data: newTab });
   };
+
+  if (isPickNameTab(state.currentTab)) {
+    return (
+      <PickNameTab/>
+    );
+  }
 
   return (
     <>

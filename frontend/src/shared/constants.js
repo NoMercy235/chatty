@@ -5,6 +5,7 @@ export const AppEvent = {
 };
 
 export const AppTab = {
+  PickName: 'PICK_NAME',
   Participants: 'PARTICIPANTS',
   Chat: 'CHAT',
 };
