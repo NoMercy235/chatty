@@ -11,6 +11,7 @@ const Event = {
   SetUser: 'SET_USER',
   GetUsers: 'GET_USERS',
   SendMessage: 'SEND_MESSAGE',
+  GetMessages: 'GET_MESSAGES',
   WsNative: {
     Request: 'request',
     Message: 'message',

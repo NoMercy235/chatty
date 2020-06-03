@@ -53,6 +53,7 @@ wsServer.on(Event.WsNative.Request, function(request) {
    * However, this will support the name initialization for clients
    */
   wsServer.broadcast(createPayload(Event.GetUsers, Db.getUsers()));
+  wsServer.broadcast(createPayload(Event.GetMessages, Db.getMessages()));
 
   connection.on(Event.WsNative.Message, function(message) {
     if (message.type === MessageType.Utf8) {

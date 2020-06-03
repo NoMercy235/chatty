@@ -23,6 +23,8 @@ const reducer = (state, action) => {
       return { ...state, currentTab: action.data };
     case AppEvent.SendMessage:
       return { ...state, messages: [...state.messages, new Message(action.data)] };
+    case AppEvent.GetMessages:
+      return { ...state, messages: action.data.map(m => new Message(m)) };
     default:
       return state;
   }
