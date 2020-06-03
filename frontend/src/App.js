@@ -1,7 +1,9 @@
 import React, { useEffect, useReducer } from 'react';
 
 import { User } from './domain/user';
-import { WsEvent } from './shared/constants';
+import { AppTab, WsEvent } from './shared/constants';
+import { AppHeader } from './components/AppHeader/AppHeader';
+import { Tabs } from './components/Tabs/Tabs';
 
 import './App.css';
 
@@ -17,6 +19,7 @@ const reducer = (state, action) => {
 }
 
 const initialState = {
+  currentTab: AppTab.Participants,
   user: undefined,
   users: [],
   messages: [],
@@ -43,6 +46,8 @@ function App() {
 
   return (
     <>
+      <AppHeader/>
+      <Tabs selected={state.currentTab} users={state.users}/>
       <div>UserID: {state.user?.id}</div>
       <div>Users</div>
       {state.users.map(user => {

@@ -1,0 +1,9 @@
+@import '../../shared/scss/variables.module';
+
+.container {
+  background-color: $gray-bg-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $app-header-font-size;
+}

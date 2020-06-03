@@ -1,0 +1,25 @@
+@import '../../shared/scss/variables.module';
+
+.container {
+  display: flex;
+  background-color: $gray-bg-color;
+
+  .tabBtn {
+    margin: 0;
+    padding: $spacing-05 0;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+
+    &:hover,
+    &.selected:hover {
+      cursor: pointer;
+      background-color: $btn-hover-bg-color;
+    }
+
+    &.selected {
+      background-color: $white-bg-color;
+    }
+  }
+}
