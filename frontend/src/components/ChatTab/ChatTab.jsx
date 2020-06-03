@@ -27,8 +27,8 @@ export const ChatTab = ({ users, messages, onSendMessage }) => {
           const author = users.find(({ id }) => id === message.author);
           return (
             <MessageEntry
-              key={message.createdAt}
-              type="message"
+              key={message.createdAt.getTime()}
+              type={message.type}
               source={author}
               when={formatDate(message.createdAt)}
               message={message.message}
