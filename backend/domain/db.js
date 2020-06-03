@@ -9,6 +9,8 @@ class Db {
     this.addUser(User.bot);
   }
 
+  getUser = userId => this.users[userId];
+
   getUsers = () => {
     return Object
       .values(this.users)
@@ -32,7 +34,7 @@ class Db {
     this.connections[user.id] = connection;
   };
 
-  removeUser = (userId) => {
+  deactivateUser = (userId) => {
     this.users[userId].deactivate();
   }
 

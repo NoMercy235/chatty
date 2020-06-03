@@ -4,7 +4,7 @@ const http = require('http');
 const { Event, HttpCodes, MessageType } = require('./lib/shared/constants');
 const { createPayload, logMessage } = require('./lib/shared/utils');
 const { createUser, handleUsersMessages } = require('./lib/ws/users-manager');
-const { handleMessages } = require('./lib/ws/messages-manager');
+const { handleMessages, botUserAnnouncement } = require('./lib/ws/messages-manager');
 const Db = require('./domain/db');
 
 const server = http.createServer(function(request, response) {
@@ -66,7 +66,8 @@ wsServer.on(Event.WsNative.Request, function(request) {
 
   connection.on(Event.WsNative.Close, function(reasonCode, description) {
     logMessage(`Peer ${connection.remoteAddress} disconnected.`);
-    Db.removeUser(user.id);
+    Db.deactivateUser(user.id);
+    botUserAnnouncement(Db.getUser(user.id), { hasLeft: true });
     wsServer.broadcast(createPayload(Event.GetUsers, Db.getUsers()));
   });
 });
