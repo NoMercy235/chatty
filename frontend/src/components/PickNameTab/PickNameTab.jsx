@@ -16,7 +16,7 @@ export const PickNameTab = ({ onPickName }) => {
     <div className={styles.container}>
       <form className={styles.pickNameForm}>
         <label htmlFor="name">Pick a name</label>
-        <input id="name" value={name} onChange={onNameChange} />
+        <input id="name" autoComplete="off" value={name} onChange={onNameChange} />
         <button type="submit" onClick={handleOnPickName}>Enter</button>
       </form>
     </div>
