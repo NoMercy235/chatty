@@ -1,6 +1,6 @@
 class Db {
   users = {};
-  messages = {};
+  messages = [];
   connections = {};
 
   getUsers = () => {

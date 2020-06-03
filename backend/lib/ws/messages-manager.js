@@ -6,9 +6,9 @@ const { createPayload } = require('../shared/utils');
 const handleMessages = (wsServer, connection, action) => {
   switch (action.type) {
     case Event.SendMessage:
-      Db.addMessage(new Message(action.data));
-      connection.send(createPayload(Event.SendMessage, Db.getMessages()));
-      wsServer.broadcast(createPayload(Event.SendMessage, Db.getMessages()));
+      const message = new Message(action.data);
+      Db.addMessage(message);
+      wsServer.broadcast(createPayload(Event.SendMessage, message));
   }
 };
 

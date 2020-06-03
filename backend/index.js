@@ -56,10 +56,10 @@ wsServer.on(Event.WsNative.Request, function(request) {
 
   connection.on(Event.WsNative.Message, function(message) {
     if (message.type === MessageType.Utf8) {
+      logMessage(`Received Message: ${message.utf8Data}`);
       const parsedMessage = JSON.parse(message.utf8Data);
       handleUsersMessages(wsServer, connection, parsedMessage);
       handleMessages(wsServer, connection, parsedMessage);
-      logMessage(`Received Message: ${message.utf8Data}`);
     }
   });
 

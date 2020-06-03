@@ -4,7 +4,7 @@ import { KeyCode } from '../../shared/constants';
 
 import * as styles from './ChatTab.module.scss';
 
-export const ChatTab = ({ onSendMessage }) => {
+export const ChatTab = ({ messages, onSendMessage }) => {
   const [message, setMessage] = useState('');
 
   const onMessageChange = e => {
@@ -19,7 +19,17 @@ export const ChatTab = ({ onSendMessage }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.messagesContainer}>messages</div>
+      <div className={styles.messagesContainer}>
+        {messages.map(message => {
+          return (
+            <div key={message.createdAt}>
+              {message.author}
+              :&nbsp;
+              {message.message}
+            </div>
+          );
+        })}
+      </div>
       <textarea
         id="message"
         rows={3}

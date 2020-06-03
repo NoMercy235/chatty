@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 
 import { User } from './domain/user';
+import { Message } from './domain/message';
 import { AppTab, AppEvent } from './shared/constants';
 import { AppHeader } from './components/AppHeader/AppHeader';
 import { Tabs } from './components/Tabs/Tabs';
@@ -20,6 +21,8 @@ const reducer = (state, action) => {
       return { ...state, users: action.data.map(u => new User(u)) };
     case AppEvent.TabChange:
       return { ...state, currentTab: action.data };
+    case AppEvent.SendMessage:
+      return { ...state, messages: [...state.messages, new Message(action.data)] };
     default:
       return state;
   }
@@ -67,7 +70,11 @@ function App() {
   };
 
   const onSendMessage = message => {
-    socket.send(createPayload({ type: AppEvent.SendMessage, data: message }))
+    const data = {
+      message,
+      author: state.user.id,
+    }
+    socket.send(createPayload(AppEvent.SendMessage, data));
   };
 
   if (isPickNameTab(state.currentTab)) {
@@ -85,7 +92,12 @@ function App() {
         onTabChange={onTabChange}
       />
       {isParticipantsTab(state.currentTab) && <UsersTab users={state.users}/>}
-      {isChatTab(state.currentTab) && <ChatTab onSendMessage={onSendMessage} />}
+      {isChatTab(state.currentTab) && (
+        <ChatTab
+          messages={state.messages}
+          onSendMessage={onSendMessage}
+        />
+      )}
     </>
   );
 }
