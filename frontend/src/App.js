@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react';
 
+import { Config } from './config';
 import { User } from './domain/user';
 import { Message } from './domain/message';
 import { AppTab, AppEvent } from './shared/constants';
@@ -52,10 +53,7 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    // Initialize socket
-    // TODO:maybe: store the userId in localStorage and use that in the query string part
-    // of the URL to get back the data of a user who has already visited the app
-    const ws = new WebSocket(`ws://localhost:8080?id=${localUser.id}&name=${localUser.name}`, 'echo-protocol');
+    const ws = new WebSocket(`ws://${Config.WsEndpoint}:${Config.WsPort}?id=${localUser.id}&name=${localUser.name}`, 'echo-protocol');
 
     ws.onmessage = ((message) => {
       const payload = JSON.parse(message.data);

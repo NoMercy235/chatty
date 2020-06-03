@@ -7,6 +7,8 @@ const { handleUsersMessages } = require('./lib/ws/users-manager');
 const { handleMessages, botUserAnnouncement } = require('./lib/ws/messages-manager');
 const Db = require('./domain/db');
 
+const PORT = process.env.PORT || 8080;
+
 const server = http.createServer(function(request, response) {
   logMessage(`Received request for ${request.url}`);
   response.writeHead(HttpCodes.NotFound);
@@ -14,8 +16,8 @@ const server = http.createServer(function(request, response) {
 });
 
 // TODO: get port from config file/env variable
-server.listen(8080, function() {
-  logMessage('Server is listening on port 8080');
+server.listen(PORT, function() {
+  logMessage(`Server is listening on port ${PORT}`);
 });
 
 wsServer = new WebSocketServer({

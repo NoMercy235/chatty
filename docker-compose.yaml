@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  chatty-backend:
+    container_name: chatty-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "2101:8080"
+  chatty-frontend:
+    stdin_open: true
+    container_name: chatty-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "2100:3000"
