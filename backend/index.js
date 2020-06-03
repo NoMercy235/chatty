@@ -47,10 +47,10 @@ wsServer.on(Event.WsNative.Request, function(request) {
   const user = createUser();
   Db.addUser(user, connection);
   connection.send(createPayload(Event.SetUser, user.forApi()));
-  connection.send(createPayload(Event.GetUsers, Db.getUsers()))
   /**
    * If the user is new, then this broadcast will have no effect since the new
    * user has no name and, thus, will not be included in the result of Db.getUsers()
+   * However, this will support the name initialization for clients
    */
   wsServer.broadcast(createPayload(Event.GetUsers, Db.getUsers()));
 
