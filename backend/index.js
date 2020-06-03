@@ -45,6 +45,10 @@ wsServer.on(Event.WsNative.Request, function(request) {
 
   logMessage('Connection accepted');
   const connectionId = Db.addConnection(connection);
+  const user = Db.getUser(request.resourceURL.query.id);
+  if (user) {
+    handleUsersMessages(wsServer, { type: Event.ActivateUser, data: user }, connectionId);
+  }
 
   connection.on(Event.WsNative.Message, function(message) {
     if (message.type === MessageType.Utf8) {

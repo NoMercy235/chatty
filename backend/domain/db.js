@@ -25,6 +25,10 @@ class Db {
     this.users[user.id] = user;
   };
 
+  activateUser = (userId) => {
+    this.users[userId].activate();
+  }
+
   deactivateUser = (userId) => {
     this.users[userId].deactivate();
   }

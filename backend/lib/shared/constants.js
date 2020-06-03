@@ -8,6 +8,7 @@ const MessageType = {
 };
 
 const Event = {
+  ActivateUser: 'ACTIVATE_USER',
   SetUser: 'SET_USER',
   GetUsers: 'GET_USERS',
   SendMessage: 'SEND_MESSAGE',

@@ -16,7 +16,8 @@ import './App.css';
 const reducer = (state, action) => {
   switch (action.type) {
     case AppEvent.SetUser:
-      return { ...state, user: new User(action.data) };
+      localStorage.setItem('user', JSON.stringify(action.data));
+      return { ...state, user: new User(action.data), currentTab: AppTab.Participants };
     case AppEvent.GetUsers:
       const users = action.data.map(u => new User(u));
       return {
@@ -38,7 +39,7 @@ const reducer = (state, action) => {
 const localUser = new User(JSON.parse(localStorage.getItem('user') || '{}'));
 
 const initialState = {
-  currentTab: localUser.id ? AppTab.Participants : AppTab.PickName,
+  currentTab: AppTab.PickName,
   user: undefined,
   users: [],
   activeUsers: [],
@@ -73,7 +74,6 @@ function App() {
   const onPickName = name => {
     const updatedUser = new User({ ...state.user, name });
     socket.send(createPayload(AppEvent.SetUser, updatedUser));
-    dispatch({ type: AppEvent.TabChange, data: AppTab.Participants });
   };
 
   const onSendMessage = message => {
