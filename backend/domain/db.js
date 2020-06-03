@@ -1,9 +1,11 @@
 const User = require('./user');
+const { idGenerator } = require('../lib/shared/utils');
 
 class Db {
   users = {};
   messages = [];
   connections = {};
+  connectionsMapper = {};
 
   constructor () {
     this.addUser(User.bot);
@@ -19,19 +21,8 @@ class Db {
       .map(user => user.forApi());
   };
 
-  addUser = (user, connection) => {
-    // If the user existed in the past, use that information for them
-    if (this.users[user.id]) {
-      this.users[user.id] = user;
-      this.users[user.id].activate();
-      if (!connection) return;
-      this.connections[user.id] = connection;
-      return;
-    }
-
-    // Otherwise, just store them normally
+  addUser = (user) => {
     this.users[user.id] = user;
-    this.connections[user.id] = connection;
   };
 
   deactivateUser = (userId) => {
@@ -44,6 +35,24 @@ class Db {
 
   getMessages = () => {
     return this.messages.map(message => message.forApi());
+  };
+
+  getConnection = (connectionId) => {
+    return this.connections[connectionId];
+  };
+
+  addConnection = (connection) => {
+    const id = idGenerator.next().value;
+    this.connections[id] = connection;
+    return id;
+  };
+
+  linkUserToConnection = (userId, connectionId) => {
+    this.connectionsMapper[connectionId] = userId;
+  };
+
+  getUserByConnectionId = connectionId => {
+    return this.getUser(this.connectionsMapper[connectionId]);
   };
 }
 

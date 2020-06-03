@@ -3,7 +3,7 @@ const http = require('http');
 
 const { Event, HttpCodes, MessageType } = require('./lib/shared/constants');
 const { createPayload, logMessage } = require('./lib/shared/utils');
-const { createUser, handleUsersMessages } = require('./lib/ws/users-manager');
+const { handleUsersMessages } = require('./lib/ws/users-manager');
 const { handleMessages, botUserAnnouncement } = require('./lib/ws/messages-manager');
 const Db = require('./domain/db');
 
@@ -44,30 +44,25 @@ wsServer.on(Event.WsNative.Request, function(request) {
   }
 
   logMessage('Connection accepted');
-  const user = createUser();
-  Db.addUser(user, connection);
-  connection.send(createPayload(Event.SetUser, user.forApi()));
-  /**
-   * If the user is new, then this broadcast will have no effect since the new
-   * user has no name and, thus, will not be included in the result of Db.getUsers()
-   * However, this will support the name initialization for clients
-   */
-  wsServer.broadcast(createPayload(Event.GetUsers, Db.getUsers()));
-  wsServer.broadcast(createPayload(Event.GetMessages, Db.getMessages()));
+  const connectionId = Db.addConnection(connection);
 
   connection.on(Event.WsNative.Message, function(message) {
     if (message.type === MessageType.Utf8) {
       logMessage(`Received Message: ${message.utf8Data}`);
       const parsedMessage = JSON.parse(message.utf8Data);
-      handleUsersMessages(wsServer, connection, parsedMessage);
-      handleMessages(wsServer, connection, parsedMessage);
+      handleUsersMessages(wsServer, parsedMessage, connectionId);
+      handleMessages(wsServer, parsedMessage);
     }
   });
 
   connection.on(Event.WsNative.Close, function(reasonCode, description) {
     logMessage(`Peer ${connection.remoteAddress} disconnected.`);
-    Db.deactivateUser(user.id);
-    botUserAnnouncement(Db.getUser(user.id), { hasLeft: true });
+    const dbUser = Db.getUserByConnectionId(connectionId);
+
+    if (!dbUser) return;
+
+    Db.deactivateUser(dbUser.id);
+    botUserAnnouncement(Db.getUser(dbUser.id), { hasLeft: true });
     wsServer.broadcast(createPayload(Event.GetUsers, Db.getUsers()));
   });
 });

@@ -4,7 +4,7 @@ const Db = require('../../domain/db');
 const { Event, UserMessageType } = require('../shared/constants');
 const { createPayload } = require('../shared/utils');
 
-const handleMessages = (wsServer, connection, action) => {
+const handleMessages = (wsServer, action) => {
   switch (action.type) {
     case Event.SendMessage:
       const message = new Message(action.data);

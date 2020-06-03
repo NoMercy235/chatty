@@ -35,10 +35,10 @@ const reducer = (state, action) => {
   }
 }
 
-const name = localStorage.getItem('name') || '';
+const localUser = new User(JSON.parse(localStorage.getItem('user') || '{}'));
 
 const initialState = {
-  currentTab: name ? AppTab.Participants : AppTab.PickName,
+  currentTab: localUser.id ? AppTab.Participants : AppTab.PickName,
   user: undefined,
   users: [],
   activeUsers: [],
@@ -54,7 +54,7 @@ function App() {
     // Initialize socket
     // TODO:maybe: store the userId in localStorage and use that in the query string part
     // of the URL to get back the data of a user who has already visited the app
-    const ws = new WebSocket(`ws://localhost:8080?name=${name}`, 'echo-protocol');
+    const ws = new WebSocket(`ws://localhost:8080?id=${localUser.id}&name=${localUser.name}`, 'echo-protocol');
 
     ws.onmessage = ((message) => {
       const payload = JSON.parse(message.data);
@@ -72,7 +72,6 @@ function App() {
 
   const onPickName = name => {
     const updatedUser = new User({ ...state.user, name });
-    dispatch({ type: AppEvent.SetUser, data: updatedUser });
     socket.send(createPayload(AppEvent.SetUser, updatedUser));
     dispatch({ type: AppEvent.TabChange, data: AppTab.Participants });
   };
