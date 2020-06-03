@@ -29,6 +29,51 @@ export const MessageEntry = ({ currentUser, message, source, onEditMessage, onDe
     e.preventDefault();
   }
 
+  const renderName = () => {
+    return (
+      <>
+        <div
+          className={classNames(styles.source, { [styles.removed]: source.isInactive })}
+        >
+          <UserEntry user={source} isYou={isYou} />
+        </div>
+        {source.isInactive && <i className={styles.inactiveText}>(inactive)</i>}
+      </>
+    );
+  };
+
+  const renderDates = () => {
+    return (
+      <>
+        <div className={classNames(styles.date, styles.when)}>
+          <i>{formatDate(message.createdAt)}</i>
+        </div>
+        {message.isEdited && (
+          <div className={styles.date}>
+            (Edited on <i>{formatDate(message.updatedAt)}</i>)
+          </div>
+        )}
+      </>
+    );
+  };
+
+  const renderActions = () => {
+    return isYou && !message.isDeleted && (
+      <>
+        <ClickableText
+          className={styles.action}
+          text="Edit"
+          onClick={onEditBtnClick}
+        />
+        <ClickableText
+          className={styles.action}
+          text="Delete"
+          onClick={onDeleteMessage}
+        />
+      </>
+    );
+  };
+
   const renderEditMessage = () => {
     return (
       <form className={styles.form}>
@@ -50,32 +95,9 @@ export const MessageEntry = ({ currentUser, message, source, onEditMessage, onDe
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div
-          className={classNames(styles.source, { [styles.removed]: source.isInactive })}
-        >
-          <UserEntry user={source} isYou={isYou} />
-        </div>
-        {source.isInactive && <i className={styles.inactiveText}>(inactive)</i>}
-        <div className={classNames(styles.date, styles.when)}><i>{formatDate(message.createdAt)}</i></div>
-        {message.isEdited && (
-          <div className={styles.date}>
-            (Edited on <i>{formatDate(message.updatedAt)}</i>)
-          </div>
-        )}
-        {isYou && !message.isDeleted && (
-          <>
-            <ClickableText
-              className={styles.action}
-              text="Edit"
-              onClick={onEditBtnClick}
-            />
-            <ClickableText
-              className={styles.action}
-              text="Delete"
-              onClick={onDeleteMessage}
-            />
-          </>
-        )}
+        {renderName()}
+        {renderDates()}
+        {renderActions()}
       </div>
       {isEditing
         ? renderEditMessage()
