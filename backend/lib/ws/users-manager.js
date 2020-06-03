@@ -9,6 +9,8 @@ const createUser = (metadata = {}) => {
 };
 
 const syncUser = (connectionId, user) => {
+  Db.linkUserToConnection(user.id, connectionId);
+  botUserAnnouncement(user, { hasLeft: false });
   Db.getConnection(connectionId).send(createPayload(Event.SetUser, user));
   wsServer.broadcast(createPayload(Event.GetUsers, Db.getUsers()));
   wsServer.broadcast(createPayload(Event.GetMessages, Db.getMessages()));
@@ -20,12 +22,10 @@ const handleUsersMessages = (wsServer, action, connectionId) => {
     case Event.SetUser:
       user = createUser(action.data);
       Db.addUser(user);
-      Db.linkUserToConnection(user.id, connectionId);
-      botUserAnnouncement(user, { hasLeft: false });
       syncUser(connectionId, user);
       break;
     case Event.ActivateUser:
-      user = action.data
+      user = action.data;
       Db.activateUser(user.id);
       syncUser(connectionId, user);
   }
