@@ -3,7 +3,7 @@ const http = require('http');
 
 const { Event, HttpCodes, MessageType } = require('./lib/shared/constants');
 const { createPayload, logMessage } = require('./lib/shared/utils');
-const { createUser } = require('./lib/ws/users-manager');
+const { createUser, handleUsersMessages } = require('./lib/ws/users-manager');
 const Db = require('./domain/db');
 
 const server = http.createServer(function(request, response) {
@@ -45,19 +45,17 @@ wsServer.on(Event.WsNative.Request, function(request) {
   logMessage('Connection accepted');
   const user = createUser();
   Db.addUser(user);
-  connection.send(createPayload(Event.UserCreated, user.forApi()));
+  connection.send(createPayload(Event.SetUser, user.forApi()));
   connection.send(createPayload(Event.GetUsers, Db.getUsers()))
 
-  // connection.on(Event.WsNative.Message, function(message) {
-  //   if (message.type === MessageType.Utf8) {
-  //     logMessage(`Received Message: ${message.utf8Data}`);
-  //     connection.sendUTF(message.utf8Data);
-  //   }
-  //   else if (message.type === MessageType.Binary) {
-  //     logMessage(`Received Binary Message of ${message.binaryData.length} bytes`);
-  //     connection.sendBytes(message.binaryData);
-  //   }
-  // });
+  connection.on(Event.WsNative.Message, function(message) {
+    if (message.type === MessageType.Utf8) {
+      const parsedMessage = JSON.parse(message.utf8Data);
+      handleUsersMessages(connection, parsedMessage);
+      logMessage(`Received Message: ${message.utf8Data}`);
+    }
+  });
+
   connection.on(Event.WsNative.Close, function(reasonCode, description) {
     logMessage(`Peer ${connection.remoteAddress} disconnected.`);
     Db.removeUser(user.id);

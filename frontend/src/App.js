@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 
 import { User } from './domain/user';
 import { AppTab, AppEvent } from './shared/constants';
@@ -8,12 +8,13 @@ import { isChatTab, isParticipantsTab, isPickNameTab } from './shared/utils';
 import { UsersTab } from './components/UsersTab/UsersTab';
 import { ChatTab } from './components/ChatTab/ChatTab';
 import { PickNameTab } from './components/PickNameTab/PickNameTab';
+import { createPayload } from './shared/utils';
 
 import './App.css';
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case AppEvent.UserCreated:
+    case AppEvent.SetUser:
       return { ...state, user: new User(action.data) };
     case AppEvent.GetUsers:
       return { ...state, users: action.data.map(u => new User(u)) };
@@ -24,8 +25,10 @@ const reducer = (state, action) => {
   }
 }
 
+const name = localStorage.getItem('name') || '';
+
 const initialState = {
-  currentTab: AppTab.PickName,
+  currentTab: name ? AppTab.Participants : AppTab.PickName,
   user: undefined,
   users: [],
   messages: [],
@@ -33,19 +36,21 @@ const initialState = {
 
 
 function App() {
+  const [socket, setSocket] = useState();
   const [state, dispatch] = useReducer(reducer, initialState);
-  let socket;
 
   useEffect(() => {
     // Initialize socket
     // TODO:maybe: store the userId in localStorage and use that in the query string part
     // of the URL to get back the data of a user who has already visited the app
-    socket = new WebSocket('ws://localhost:8080', 'echo-protocol');
+    const ws = new WebSocket(`ws://localhost:8080?name=${name}`, 'echo-protocol');
 
-    socket.onmessage = ((message) => {
+    ws.onmessage = ((message) => {
       const payload = JSON.parse(message.data);
       dispatch(payload);
     });
+
+    setSocket(ws);
 
     // TODO: handle on error
   }, []);
@@ -54,9 +59,16 @@ function App() {
     dispatch({ type: AppEvent.TabChange, data: newTab });
   };
 
+  const onPickName = name => {
+    const updatedUser = new User({ ...state.user, name });
+    dispatch({ type: AppEvent.SetUser, data: updatedUser });
+    socket.send(createPayload(AppEvent.SetUser, updatedUser));
+    dispatch({ type: AppEvent.TabChange, data: AppTab.Participants });
+  };
+
   if (isPickNameTab(state.currentTab)) {
     return (
-      <PickNameTab/>
+      <PickNameTab onPickName={onPickName} />
     );
   }
 

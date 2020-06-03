@@ -8,7 +8,7 @@ const MessageType = {
 };
 
 const Event = {
-  UserCreated: 'USER_CREATED',
+  SetUser: 'SET_USER',
   GetUsers: 'GET_USERS',
   WsNative: {
     Request: 'request',

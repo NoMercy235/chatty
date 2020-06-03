@@ -1,5 +1,5 @@
 export const AppEvent = {
-  UserCreated: 'USER_CREATED',
+  SetUser: 'SET_USER',
   GetUsers: 'GET_USERS',
   TabChange: 'TAB_CHANGE',
 };

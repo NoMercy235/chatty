@@ -11,3 +11,10 @@ export const isParticipantsTab = (currentTab) => {
 export const isChatTab = (currentTab) => {
   return currentTab === AppTab.Chat;
 };
+
+export const createPayload = (eventType, data) => {
+  return JSON.stringify({
+    type: eventType,
+    data,
+  });
+};
