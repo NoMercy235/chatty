@@ -9,7 +9,8 @@
   font-size: $app-header-font-size;
 
   .nameIdentifier {
-    margin-bottom: $spacing-05;
+    margin: 0 $spacing-05 $spacing-05 $spacing-05;
+    text-align: center;
 
     .changeNameText {
       color: $blue-text-color;
