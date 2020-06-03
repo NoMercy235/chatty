@@ -1,7 +1,13 @@
+const User = require('./user');
+
 class Db {
   users = {};
   messages = [];
   connections = {};
+
+  constructor () {
+    this.addUser(User.bot);
+  }
 
   getUsers = () => {
     return Object

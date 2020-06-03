@@ -24,9 +24,15 @@ const UserMessageType = {
   Info: 'INFO',
 };
 
+const UserBotMetadata = {
+  id: 0,
+  name: 'Meetingbot',
+};
+
 module.exports = {
   Event,
   HttpCodes,
   MessageType,
+  UserBotMetadata,
   UserMessageType,
 };

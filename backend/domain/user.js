@@ -1,6 +1,9 @@
 const { idGenerator } = require('../lib/shared/utils');
+const { UserBotMetadata } = require('../lib/shared/constants');
 
 class User {
+  static bot = new User(UserBotMetadata);
+
   constructor ({ id, name, isInactive } = {}) {
     this.id = id || idGenerator.next().value;
     this.name = name;
