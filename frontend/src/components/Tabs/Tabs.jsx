@@ -6,7 +6,7 @@ import { AppTab } from '../../shared/constants';
 
 import * as styles from './Tabs.module.scss';
 
-export const Tabs = ({ selected, users, onTabChange }) => {
+export const Tabs = ({ selected, noOfUsers, onTabChange }) => {
   const onTabClick = tab => () => {
     onTabChange(tab);
   };
@@ -20,7 +20,7 @@ export const Tabs = ({ selected, users, onTabChange }) => {
         )}
         onClick={onTabClick(AppTab.Participants)}
       >
-        Participants ({users.length})
+        Participants ({noOfUsers})
       </h3>
       <h3
         className={classNames(

@@ -29,7 +29,7 @@ export const ChatTab = ({ users, messages, onSendMessage }) => {
             <MessageEntry
               key={message.createdAt}
               type="message"
-              source={author.name}
+              source={author}
               when={formatDate(message.createdAt)}
               message={message.message}
             />

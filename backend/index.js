@@ -66,7 +66,7 @@ wsServer.on(Event.WsNative.Request, function(request) {
 
   connection.on(Event.WsNative.Close, function(reasonCode, description) {
     logMessage(`Peer ${connection.remoteAddress} disconnected.`);
-    // Db.removeUser(user.id);
+    Db.removeUser(user.id);
     wsServer.broadcast(createPayload(Event.GetUsers, Db.getUsers()));
   });
 });

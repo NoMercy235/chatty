@@ -9,7 +9,12 @@ export const MessageEntry = ({ type, source, when, message }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div className={styles.source}>{source}</div>
+        <div
+          className={classNames(styles.source, { [styles.removed]: source.isInactive })}
+        >
+          {source.name}
+        </div>
+        {source.isInactive && <i className={styles.inactiveText}>(inactive)</i>}
         <div className={styles.when}><i>{when}</i></div>
       </div>
       <div className={classNames({ [styles.infoMessage]: type === UserMessageType.Info})}>

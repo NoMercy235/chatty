@@ -12,13 +12,22 @@ class Db {
   };
 
   addUser = (user, connection) => {
+    // If the user existed in the past, use that information for them
+    if (this.users[user.id]) {
+      this.users[user.id] = user;
+      this.users[user.id].activate();
+      if (!connection) return;
+      this.connections[user.id] = connection;
+      return;
+    }
+
+    // Otherwise, just store them normally
     this.users[user.id] = user;
-    if (!connection) return;
     this.connections[user.id] = connection;
   };
 
   removeUser = (userId) => {
-    delete this.users[userId];
+    this.users[userId].deactivate();
   }
 
   addMessage = (message) => {

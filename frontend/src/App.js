@@ -18,7 +18,12 @@ const reducer = (state, action) => {
     case AppEvent.SetUser:
       return { ...state, user: new User(action.data) };
     case AppEvent.GetUsers:
-      return { ...state, users: action.data.map(u => new User(u)) };
+      const users = action.data.map(u => new User(u));
+      return {
+        ...state,
+        users,
+        activeUsers: users.filter(({ isInactive }) => !isInactive),
+      };
     case AppEvent.TabChange:
       return { ...state, currentTab: action.data };
     case AppEvent.SendMessage:
@@ -36,6 +41,7 @@ const initialState = {
   currentTab: name ? AppTab.Participants : AppTab.PickName,
   user: undefined,
   users: [],
+  activeUsers: [],
   messages: [],
 };
 
@@ -90,10 +96,10 @@ function App() {
       <AppHeader/>
       <Tabs
         selected={state.currentTab}
-        users={state.users}
+        noOfUsers={state.activeUsers.length}
         onTabChange={onTabChange}
       />
-      {isParticipantsTab(state.currentTab) && <UsersTab users={state.users}/>}
+      {isParticipantsTab(state.currentTab) && <UsersTab users={state.activeUsers}/>}
       {isChatTab(state.currentTab) && (
         <ChatTab
           users={state.users}

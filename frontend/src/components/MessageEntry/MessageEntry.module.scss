@@ -24,6 +24,11 @@
     }
   }
 
+  .inactiveText {
+    color: $light-text-color;
+    margin-right: $spacing-04;
+  }
+
   .infoMessage {
     color: $light-text-color;
   }
