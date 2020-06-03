@@ -66,6 +66,10 @@ function App() {
     dispatch({ type: AppEvent.TabChange, data: AppTab.Participants });
   };
 
+  const onSendMessage = message => {
+    socket.send(createPayload({ type: AppEvent.SendMessage, data: message }))
+  };
+
   if (isPickNameTab(state.currentTab)) {
     return (
       <PickNameTab onPickName={onPickName} />
@@ -81,7 +85,7 @@ function App() {
         onTabChange={onTabChange}
       />
       {isParticipantsTab(state.currentTab) && <UsersTab users={state.users}/>}
-      {isChatTab(state.currentTab) && <ChatTab/>}
+      {isChatTab(state.currentTab) && <ChatTab onSendMessage={onSendMessage} />}
     </>
   );
 }
