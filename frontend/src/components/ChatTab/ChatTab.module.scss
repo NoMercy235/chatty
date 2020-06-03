@@ -5,12 +5,18 @@
   flex: 1;
   flex-direction: column;
   padding: $spacing-04;
+  overflow: auto;
 
   .messagesContainer {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
   }
 
   .textArea {
+    margin-top: $spacing-04;
     resize: none;
+    min-height: $message-text-area-min-height;
   }
 }
