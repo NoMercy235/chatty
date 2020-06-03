@@ -88,6 +88,10 @@ function App() {
     socket.send(createPayload(AppEvent.SendMessage, data));
   };
 
+  const onEditMessage = (messageId, message) => {
+    socket.send(createPayload(AppEvent.EditMessage, { id: messageId, message }));
+  };
+
   const onDeleteMessage = messageId => {
     socket.send(createPayload(AppEvent.DeleteMessage, messageId));
   };
@@ -121,6 +125,7 @@ function App() {
           users={state.users}
           messages={state.messages}
           onSendMessage={onSendMessage}
+          onEditMessage={onEditMessage}
           onDeleteMessage={onDeleteMessage}
         />
       )}

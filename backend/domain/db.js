@@ -37,10 +37,20 @@ class Db {
     this.messages.push(message);
   };
 
+  updateMessage = (messageId, newMessage) => {
+    const message = this.getMessage(messageId);
+    message.message = newMessage;
+    message.updatedAt = new Date();
+  };
+
   deleteMessage = (messageId) => {
-    const message = this.messages.find(({ id }) => id === messageId);
+    const message = this.getMessage(messageId);
     message.isDeleted = true;
     message.message = 'This message has been deleted';
+  };
+
+  getMessage = (messageId) => {
+    return this.messages.find(({ id }) => id === messageId);
   };
 
   getMessages = () => {

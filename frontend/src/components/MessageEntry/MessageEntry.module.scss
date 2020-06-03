@@ -36,4 +36,16 @@
   .infoMessage {
     color: $light-text-color;
   }
+
+  .form {
+    display: flex;
+
+    input {
+      flex: 1;
+    }
+
+    & > *:not(:last-child) {
+      margin-right: $spacing-04;
+    }
+  }
 }

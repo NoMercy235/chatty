@@ -5,7 +5,7 @@ import { MessageEntry } from '../MessageEntry/MessageEntry';
 
 import * as styles from './ChatTab.module.scss';
 
-export const ChatTab = ({ currentUser, users, messages, onSendMessage, onDeleteMessage }) => {
+export const ChatTab = ({ currentUser, users, messages, onSendMessage, onEditMessage, onDeleteMessage }) => {
   const [message, setMessage] = useState('');
   const messagesRef = useRef(null);
 
@@ -24,6 +24,10 @@ export const ChatTab = ({ currentUser, users, messages, onSendMessage, onDeleteM
     }
   };
 
+  const onHandleEditMessage = (messageId) => (message) => {
+    onEditMessage(messageId, message);
+  };
+
   const onHandleDeleteMessage = (messageId) => () => {
     onDeleteMessage(messageId);
   };
@@ -39,6 +43,7 @@ export const ChatTab = ({ currentUser, users, messages, onSendMessage, onDeleteM
               message={message}
               currentUser={currentUser}
               source={author}
+              onEditMessage={onHandleEditMessage(message.id)}
               onDeleteMessage={onHandleDeleteMessage(message.id)}
             />
           );

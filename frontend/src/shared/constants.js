@@ -3,6 +3,7 @@ export const AppEvent = {
   GetUsers: 'GET_USERS',
   TabChange: 'TAB_CHANGE',
   SendMessage: 'SEND_MESSAGE',
+  EditMessage: 'EDIT_MESSAGE',
   DeleteMessage: 'DELETE_MESSAGE',
   GetMessages: 'GET_MESSAGES',
 };
