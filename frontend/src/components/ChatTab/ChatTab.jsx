@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import { KeyCode } from '../../shared/constants';
 import { MessageEntry } from '../MessageEntry/MessageEntry';
@@ -8,6 +8,11 @@ import * as styles from './ChatTab.module.scss';
 
 export const ChatTab = ({ users, messages, onSendMessage }) => {
   const [message, setMessage] = useState('');
+  const messagesRef = useRef(null);
+
+  useEffect(() => {
+    messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+  }, [messages]);
 
   const onMessageChange = e => {
     setMessage(e.currentTarget.value);
@@ -22,7 +27,7 @@ export const ChatTab = ({ users, messages, onSendMessage }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.messagesContainer}>
+      <div ref={messagesRef} className={styles.messagesContainer}>
         {messages.map(message => {
           const author = users.find(({ id }) => id === message.author);
           return (
