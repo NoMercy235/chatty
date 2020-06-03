@@ -18,9 +18,11 @@ export const ChatTab = ({ currentUser, users, messages, onSendMessage, onEditMes
   }
 
   const onMessageKeyDown = e => {
-    if (e.ctrlKey && e.keyCode === KeyCode.Enter) {
+    if (e.keyCode === KeyCode.Enter) {
       onSendMessage(message);
       setMessage('');
+      e.stopPropagation();
+      e.preventDefault();
     }
   };
 
@@ -53,7 +55,7 @@ export const ChatTab = ({ currentUser, users, messages, onSendMessage, onEditMes
         id="message"
         rows={3}
         className={styles.textArea}
-        placeholder="Write a message (send with Ctrl+Enter)"
+        placeholder="Write a message (send with Enter)"
         value={message}
         onChange={onMessageChange}
         onKeyDown={onMessageKeyDown}
