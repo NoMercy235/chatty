@@ -10,6 +10,7 @@ const MessageType = {
 const Event = {
   SetUser: 'SET_USER',
   GetUsers: 'GET_USERS',
+  SendMessage: 'SEND_MESSAGE',
   WsNative: {
     Request: 'request',
     Message: 'message',

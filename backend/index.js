@@ -4,6 +4,7 @@ const http = require('http');
 const { Event, HttpCodes, MessageType } = require('./lib/shared/constants');
 const { createPayload, logMessage } = require('./lib/shared/utils');
 const { createUser, handleUsersMessages } = require('./lib/ws/users-manager');
+const { handleMessages } = require('./lib/ws/messages-manager');
 const Db = require('./domain/db');
 
 const server = http.createServer(function(request, response) {
@@ -57,6 +58,7 @@ wsServer.on(Event.WsNative.Request, function(request) {
     if (message.type === MessageType.Utf8) {
       const parsedMessage = JSON.parse(message.utf8Data);
       handleUsersMessages(wsServer, connection, parsedMessage);
+      handleMessages(wsServer, connection, parsedMessage);
       logMessage(`Received Message: ${message.utf8Data}`);
     }
   });

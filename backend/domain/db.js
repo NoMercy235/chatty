@@ -20,6 +20,14 @@ class Db {
   removeUser = (userId) => {
     delete this.users[userId];
   }
+
+  addMessage = (message) => {
+    this.messages.push(message);
+  };
+
+  getMessages = () => {
+    return this.messages.map(message => message.forApi());
+  };
 }
 
 module.exports = new Db();

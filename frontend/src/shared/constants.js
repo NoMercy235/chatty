@@ -2,7 +2,7 @@ export const AppEvent = {
   SetUser: 'SET_USER',
   GetUsers: 'GET_USERS',
   TabChange: 'TAB_CHANGE',
-  SendMessage: 'TAB_CHANGE',
+  SendMessage: 'SEND_MESSAGE',
 };
 
 export const AppTab = {
