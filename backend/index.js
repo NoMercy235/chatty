@@ -45,7 +45,8 @@ wsServer.on(Event.WsNative.Request, function(request) {
   logMessage('Connection accepted');
   const user = createUser();
   Db.addUser(user);
-  connection.send(createPayload(Event.UserCreated, user.toString()));
+  connection.send(createPayload(Event.UserCreated, user.forApi()));
+  connection.send(createPayload(Event.GetUsers, Db.getUsers()))
 
   // connection.on(Event.WsNative.Message, function(message) {
   //   if (message.type === MessageType.Utf8) {
@@ -59,5 +60,6 @@ wsServer.on(Event.WsNative.Request, function(request) {
   // });
   connection.on(Event.WsNative.Close, function(reasonCode, description) {
     logMessage(`Peer ${connection.remoteAddress} disconnected.`);
+    Db.removeUser(user.id);
   });
 });

@@ -3,11 +3,10 @@ const { idGenerator } = require('../lib/shared/utils');
 class User {
   id = idGenerator.next().value;
 
-  toString = () => {
-    const toSend = {
+  forApi = () => {
+    return {
       id: this.id,
-    }
-    return JSON.stringify(toSend);
+    };
   };
 }
 

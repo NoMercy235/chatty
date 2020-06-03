@@ -8,7 +8,9 @@ import './App.css';
 const reducer = (state, action) => {
   switch (action.type) {
     case WsEvent.UserCreated:
-      return { ...state, user: new User(JSON.parse(action.data)) };
+      return { ...state, user: new User(action.data) };
+    case WsEvent.GetUsers:
+      return { ...state, users: action.data.map(u => new User(u)) };
     default:
       return state;
   }
@@ -16,7 +18,7 @@ const reducer = (state, action) => {
 
 const initialState = {
   user: undefined,
-  users: {},
+  users: [],
   messages: [],
 };
 
@@ -40,7 +42,13 @@ function App() {
   }, []);
 
   return (
-    <div>UserID: {state.user?.id}</div>
+    <>
+      <div>UserID: {state.user?.id}</div>
+      <div>Users</div>
+      {state.users.map(user => {
+        return <div key={user.id}>{user.id}</div>;
+      })}
+    </>
   );
 }
 
