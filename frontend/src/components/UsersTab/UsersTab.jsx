@@ -1,7 +1,15 @@
 import React from 'react';
 
-export const UsersTab = ({ users }) => {
+import { UserEntry } from '../UserEntry/UserEntry';
+
+export const UsersTab = ({ currentUser, users }) => {
   return users.map(user => {
-    return <div key={user.id}>{user.id}: {user.name}</div>;
+    return (
+      <UserEntry
+        key={user.id}
+        user={user}
+        isYou={user.id === currentUser.id}
+      />
+    );
   });
 };

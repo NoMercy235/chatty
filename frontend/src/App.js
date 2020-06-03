@@ -99,7 +99,12 @@ function App() {
         noOfUsers={state.activeUsers.length}
         onTabChange={onTabChange}
       />
-      {isParticipantsTab(state.currentTab) && <UsersTab users={state.activeUsers}/>}
+      {isParticipantsTab(state.currentTab) && (
+        <UsersTab
+          currentUser={state.user}
+          users={state.activeUsers}
+        />
+      )}
       {isChatTab(state.currentTab) && (
         <ChatTab
           users={state.users}

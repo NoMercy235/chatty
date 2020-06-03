@@ -1,0 +1,11 @@
+@import '../../shared/scss/variables.module';
+
+.container {
+  padding: $spacing-05;
+  border-bottom: 1px solid $user-separation-border-color;
+
+  .you {
+    font-size: small;
+    color: $light-text-color;
+  }
+}
