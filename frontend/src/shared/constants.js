@@ -15,3 +15,8 @@ export const AppTab = {
 export const KeyCode = {
   Enter: 13,
 };
+
+export const UserMessageType = {
+  Message: 'MESSAGE',
+  Info: 'INFO',
+};

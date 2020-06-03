@@ -1,0 +1,30 @@
+@import '../../shared/scss/variables.module';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: $spacing-04;
+
+  .header {
+    display: flex;
+    align-items: center;
+
+    .source {
+      font-size: $app-header-font-size;
+      font-weight: bold;
+      margin-right: $spacing-04;
+
+      &.removed {
+        color: $light-text-color
+      }
+    }
+
+    .when {
+      color: $light-text-color;
+    }
+  }
+
+  .infoMessage {
+    color: $light-text-color;
+  }
+}

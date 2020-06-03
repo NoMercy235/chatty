@@ -96,6 +96,7 @@ function App() {
       {isParticipantsTab(state.currentTab) && <UsersTab users={state.users}/>}
       {isChatTab(state.currentTab) && (
         <ChatTab
+          users={state.users}
           messages={state.messages}
           onSendMessage={onSendMessage}
         />

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 
 import { KeyCode } from '../../shared/constants';
+import { MessageEntry } from '../MessageEntry/MessageEntry';
+import { formatDate } from '../../shared/utils';
 
 import * as styles from './ChatTab.module.scss';
 
-export const ChatTab = ({ messages, onSendMessage }) => {
+export const ChatTab = ({ users, messages, onSendMessage }) => {
   const [message, setMessage] = useState('');
 
   const onMessageChange = e => {
@@ -22,12 +24,15 @@ export const ChatTab = ({ messages, onSendMessage }) => {
     <div className={styles.container}>
       <div className={styles.messagesContainer}>
         {messages.map(message => {
+          const author = users.find(({ id }) => id === message.author);
           return (
-            <div key={message.createdAt}>
-              {message.author}
-              :&nbsp;
-              {message.message}
-            </div>
+            <MessageEntry
+              key={message.createdAt}
+              type="message"
+              source={author.name}
+              when={formatDate(message.createdAt)}
+              message={message.message}
+            />
           );
         })}
       </div>

@@ -19,8 +19,14 @@ const Event = {
   },
 };
 
+const UserMessageType = {
+  Message: 'MESSAGE',
+  Info: 'INFO',
+};
+
 module.exports = {
   Event,
   HttpCodes,
   MessageType,
+  UserMessageType,
 };

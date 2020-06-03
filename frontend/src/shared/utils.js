@@ -18,3 +18,14 @@ export const createPayload = (eventType, data) => {
     data,
   });
 };
+
+const intl = new Intl.DateTimeFormat('en-GB', {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+});
+
+export const formatDate = date => intl.format(date);
