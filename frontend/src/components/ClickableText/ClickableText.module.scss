@@ -1,0 +1,10 @@
+@import '../../shared/scss/variables.module';
+
+.clickableText {
+  color: $blue-text-color;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}

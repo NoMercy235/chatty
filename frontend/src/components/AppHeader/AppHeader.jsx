@@ -1,16 +1,16 @@
 import React from 'react';
 
+import { ClickableText } from '../ClickableText/ClickableText';
+
 import * as styles from './AppHeader.module.scss';
 
 export const AppHeader = ({ user, onChangeName }) => {
   const renderChangeNameText = () => {
     return (
-      <span
-        className={styles.changeNameText}
+      <ClickableText
+        text="Change your name!"
         onClick={onChangeName}
-      >
-        Change your name!
-      </span>
+      />
     );
   };
 

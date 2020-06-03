@@ -22,6 +22,10 @@
     .when {
       color: $light-text-color;
     }
+
+    .action {
+      margin-left: $spacing-04;
+    }
   }
 
   .inactiveText {

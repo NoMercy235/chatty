@@ -11,14 +11,5 @@
   .nameIdentifier {
     margin: 0 $spacing-05 $spacing-05 $spacing-05;
     text-align: center;
-
-    .changeNameText {
-      color: $blue-text-color;
-
-      &:hover {
-        cursor: pointer;
-        text-decoration: underline;
-      }
-    }
   }
 }
