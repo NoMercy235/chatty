@@ -53,7 +53,7 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    const ws = new WebSocket(`ws://${Config.WsEndpoint}:${Config.WsPort}?id=${localUser.id}&name=${localUser.name}`, 'echo-protocol');
+    const ws = new WebSocket(`ws://${Config.WsHost}:${Config.WsPort}?id=${localUser.id}&name=${localUser.name}`, 'echo-protocol');
 
     ws.onmessage = ((message) => {
       const payload = JSON.parse(message.data);
