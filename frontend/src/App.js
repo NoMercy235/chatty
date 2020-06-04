@@ -3,10 +3,10 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { Config } from './config';
 import { User } from './domain/user';
 import { Message } from './domain/message';
-import { AppTab, AppEvent } from './shared/constants';
+import { AppTab, AppEvent, WsProtocol } from './shared/constants';
 import { AppHeader } from './components/AppHeader/AppHeader';
 import { Tabs } from './components/Tabs/Tabs';
-import { isChatTab, isErrorTab, isParticipantsTab, isPickNameTab } from './shared/utils';
+import { createWsEndpoint, isChatTab, isErrorTab, isParticipantsTab, isPickNameTab } from './shared/utils';
 import { UsersTab } from './components/UsersTab/UsersTab';
 import { ChatTab } from './components/ChatTab/ChatTab';
 import { PickNameTab } from './components/PickNameTab/PickNameTab';
@@ -54,7 +54,7 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    const ws = new WebSocket(`ws://${Config.WsHost}qwe:${Config.WsPort}?id=${localUser.id}&name=${localUser.name}`, 'echo-protocol');
+    const ws = new WebSocket(createWsEndpoint(Config.WsHost, Config.WsPort, localUser), WsProtocol.EchoProtocol);
 
     ws.onmessage = ((message) => {
       const payload = JSON.parse(message.data);

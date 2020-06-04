@@ -23,3 +23,7 @@ export const UserMessageType = {
   Message: 'MESSAGE',
   Info: 'INFO',
 };
+
+export const WsProtocol = {
+  EchoProtocol: 'echo-protocol',
+};

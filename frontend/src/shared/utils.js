@@ -1,4 +1,5 @@
 import { AppTab } from './constants';
+import { Config } from '../config';
 
 export const isErrorTab = (currentTab) => {
   return currentTab === AppTab.Error;
@@ -33,3 +34,7 @@ const intl = new Intl.DateTimeFormat('en-GB', {
 });
 
 export const formatDate = date => intl.format(date);
+
+export const createWsEndpoint = (wsHost, wsPort, localUser) => {
+  return `ws://${Config.WsHost}:${Config.WsPort}?id=${localUser.id}&name=${localUser.name}`;
+};
