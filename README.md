@@ -18,3 +18,8 @@ This project consists of two applications:
     - As said, there is noo authentication
     - If a user knows the id of someone, they can impersonate them
  - Error handling is done at a basic level
+ 
+ ### How to run
+ If you have Docker and `docker-compose` installed on your machine, you can run the `./serve.sh` script to build 2 containers with the backend and frontend applications respectively.
+ 
+ Otherwise, you can go into each project and follow the "How to run" section from there.
