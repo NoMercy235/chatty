@@ -2,18 +2,12 @@
 
 The client side part of the "Chatty" project.
 
-#### Assumptions/Decisions:
- - For speed purposes:
-    - No Typescript setup
-    - No tests
-    - No store manager (will use internal state)
-
 #### Objectives:
  - [x] Build a user interface similar to the one used in `../initial-resources/*.png`
  - [x] Connect to the backend through Web Sockets
     - [x] See a list of current users
     - [x] Send messages to the chat
- - [ ] Edit/Delete your own messages but leave their trace
+ - [x] Edit/Delete your own messages but leave their trace
  
  ###### Optional objectives:
  - [ ] Image/emoji support for messages
@@ -21,3 +15,13 @@ The client side part of the "Chatty" project.
  - [ ] Giphy support
  - [ ] Theming/Alternative layouts
  - [ ] End to end encryption for peer-to-peer communication
+
+#### How to run
+- Create the file `./src/config.js` with the following format:
+```javascript
+export const Config = {
+  WsHost: 'host',
+  WsPort: 1234
+};
+```
+- Run `npm run start`
