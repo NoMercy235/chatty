@@ -9,12 +9,14 @@ const handleMessages = (wsServer, action) => {
   switch (action.type) {
     case Event.SendMessage:
       message = new Message(action.data);
+      if (!message.isValid()) return;
       Db.addMessage(message);
       wsServer.broadcast(createPayload(Event.SendMessage, message));
       break;
     case Event.EditMessage:
-      const { id: messageId, message: newMessage } = action.data;
-      Db.updateMessage(messageId, newMessage);
+      message = new Message(action.data);
+      if (!message.isValid()) return;
+      Db.updateMessage(message.id, message);
       wsServer.broadcast(createPayload(Event.GetMessages, Db.getMessages()));
       break;
     case Event.DeleteMessage:

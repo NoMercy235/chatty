@@ -12,6 +12,10 @@ class Message {
     this.type = type || UserMessageType.Message;
   }
 
+  isValid = () => {
+    return this.id && this.message;
+  };
+
   forApi = () => {
     return {
       id: this.id,

@@ -21,6 +21,7 @@ const handleUsersMessages = (wsServer, action, connectionId) => {
   switch (action.type) {
     case Event.SetUser:
       user = createUser(action.data);
+      if (!user.isValid()) return;
       Db.addUser(user);
       syncUser(connectionId, user);
       break;

@@ -13,6 +13,10 @@ class User {
   activate = () => this.isInactive = false;
   deactivate = () => this.isInactive = true;
 
+  isValid = () => {
+    return this.id !== undefined && this.name;
+  };
+
   forApi = () => {
     return {
       id: this.id,

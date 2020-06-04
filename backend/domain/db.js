@@ -39,7 +39,7 @@ class Db {
 
   updateMessage = (messageId, newMessage) => {
     const message = this.getMessage(messageId);
-    message.message = newMessage;
+    message.message = newMessage.message;
     message.updatedAt = new Date();
   };
 
