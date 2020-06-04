@@ -1,5 +1,9 @@
 import { AppTab } from './constants';
 
+export const isErrorTab = (currentTab) => {
+  return currentTab === AppTab.Error;
+};
+
 export const isPickNameTab = (currentTab) => {
   return currentTab === AppTab.PickName;
 };

@@ -6,11 +6,12 @@ import { Message } from './domain/message';
 import { AppTab, AppEvent } from './shared/constants';
 import { AppHeader } from './components/AppHeader/AppHeader';
 import { Tabs } from './components/Tabs/Tabs';
-import { isChatTab, isParticipantsTab, isPickNameTab } from './shared/utils';
+import { isChatTab, isErrorTab, isParticipantsTab, isPickNameTab } from './shared/utils';
 import { UsersTab } from './components/UsersTab/UsersTab';
 import { ChatTab } from './components/ChatTab/ChatTab';
 import { PickNameTab } from './components/PickNameTab/PickNameTab';
 import { createPayload } from './shared/utils';
+import { ErrorTab } from './components/ErrorTab/ErrorTab';
 
 import './App.css';
 
@@ -53,7 +54,7 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    const ws = new WebSocket(`ws://${Config.WsHost}:${Config.WsPort}?id=${localUser.id}&name=${localUser.name}`, 'echo-protocol');
+    const ws = new WebSocket(`ws://${Config.WsHost}qwe:${Config.WsPort}?id=${localUser.id}&name=${localUser.name}`, 'echo-protocol');
 
     ws.onmessage = ((message) => {
       const payload = JSON.parse(message.data);
@@ -62,7 +63,7 @@ function App() {
 
     setSocket(ws);
 
-    // TODO: handle on error
+    ws.onerror = (() => onTabChange(AppTab.Error));
   }, []);
 
   const onTabChange = newTab => {
@@ -93,6 +94,12 @@ function App() {
   const onDeleteMessage = messageId => {
     socket.send(createPayload(AppEvent.DeleteMessage, messageId));
   };
+
+  if (isErrorTab(state.currentTab)) {
+    return (
+      <ErrorTab />
+    );
+  }
 
   if (isPickNameTab(state.currentTab)) {
     return (

@@ -1,0 +1,16 @@
+@import '../../shared/scss/variables.module';
+
+.container {
+  height: 100%;
+  background-color: $gray-bg-color;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+}

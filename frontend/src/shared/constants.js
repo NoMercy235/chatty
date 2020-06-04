@@ -9,6 +9,7 @@ export const AppEvent = {
 };
 
 export const AppTab = {
+  Error: 'ERROR',
   PickName: 'PICK_NAME',
   Participants: 'PARTICIPANTS',
   Chat: 'CHAT',
