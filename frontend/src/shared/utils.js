@@ -38,3 +38,10 @@ export const formatDate = date => intl.format(date);
 export const createWsEndpoint = (wsHost, wsPort, localUser) => {
   return `ws://${Config.WsHost}:${Config.WsPort}?id=${localUser.id}&name=${localUser.name}`;
 };
+
+export const fileToBase64 = file => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => resolve(reader.result);
+  reader.onerror = error => reject(error);
+});

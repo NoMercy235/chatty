@@ -23,8 +23,16 @@ export const UserMessageType = {
   Message: 'MESSAGE',
   Info: 'INFO',
   Gif: 'GIF',
+  Image: 'IMAGE',
 };
 
 export const WsProtocol = {
   EchoProtocol: 'echo-protocol',
+};
+
+export const FileType = {
+  Jpg: 'jpg',
+  Jpeg: 'jpeg',
+  Png: 'png',
+  Ico: 'ico',
 };

@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { KeyCode, UserMessageType } from '../../shared/constants';
 import { MessageEntry } from '../MessageEntry/MessageEntry';
 import { ChatActions } from '../ChatActions/ChatActions';
+import { fileToBase64 } from '../../shared/utils';
 
 import * as styles from './ChatTab.module.scss';
 
@@ -34,6 +35,14 @@ export const ChatTab = ({ currentUser, users, messages, onSendMessage, onEditMes
     });
   };
 
+  const onImageUpload = async (image) => {
+    const base64Img = await fileToBase64(image);
+    onSendMessage({
+      image: base64Img,
+      type: UserMessageType.Image,
+    })
+  };
+
   const onHandleEditMessage = (messageId) => (message) => {
     onEditMessage(messageId, message);
   };
@@ -59,7 +68,10 @@ export const ChatTab = ({ currentUser, users, messages, onSendMessage, onEditMes
           );
         })}
       </div>
-      <ChatActions onGifClick={onGifClick}/>
+      <ChatActions
+        onGifClick={onGifClick}
+        onImageUpload={onImageUpload}
+      />
       <textarea
         id="message"
         rows={3}

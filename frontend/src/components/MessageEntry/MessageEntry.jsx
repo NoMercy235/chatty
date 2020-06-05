@@ -62,7 +62,7 @@ export const MessageEntry = ({ currentUser, message, source, onEditMessage, onDe
   const renderActions = () => {
     return isYou && !message.isDeleted && (
       <>
-        {!message.isGif && (
+        {!message.isText && (
           <ClickableText
             className={styles.action}
             text="Edit"
@@ -92,6 +92,12 @@ export const MessageEntry = ({ currentUser, message, source, onEditMessage, onDe
     if (message.isGif) {
       return (
         <Gif gif={message.gif} width={GIF_WIDTH}/>
+      )
+    }
+
+    if (message.isImage) {
+      return (
+        <img src={message.image} />
       )
     }
 

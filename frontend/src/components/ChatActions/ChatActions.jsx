@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Carousel } from '@giphy/react-components';
 import { DebounceInput } from 'react-debounce-input';
+import { FilePicker } from 'react-file-picker';
 
 import {
   gf,
@@ -9,12 +10,22 @@ import {
   GIPHY_MIN_CHAR_SEARCH,
   GIPHY_REQUEST_LIMIT
 } from '../../shared/giphy';
+import { FileType } from '../../shared/constants';
 
 import * as styles from './ChatActions.module.scss';
 
-export const ChatActions = ({ onGifClick }) => {
+export const ChatActions = ({ onGifClick, onImageUpload }) => {
   const [showGifs, setShowGifs] = useState(false);
   const [gifSearchQuery, setGifSearchQuery] = useState('');
+
+  const onHandleImageUploadSuccess = (image) => {
+    onImageUpload(image);
+  };
+
+  const onHandleImageUploadError = (...args) => {
+    // TODO: handle errors
+    alert(args);
+  };
 
   const onGiphyBtnClick = () => setShowGifs(!showGifs);
 
@@ -53,11 +64,26 @@ export const ChatActions = ({ onGifClick }) => {
     )
   };
 
+  const renderImagePicker = () => {
+    return (
+      <FilePicker
+        extensions={[FileType.Png, FileType.Jpg, FileType.Jpeg, FileType.Ico]}
+        onChange={onHandleImageUploadSuccess}
+        onError={onHandleImageUploadError}
+      >
+        <button>
+          Upload image
+        </button>
+      </FilePicker>
+    );
+  };
+
   return (
     <>
       {renderGifPicker()}
       <div className={styles.container}>
         <button onClick={onGiphyBtnClick}>Giphy</button>
+        {renderImagePicker()}
       </div>
     </>
   );

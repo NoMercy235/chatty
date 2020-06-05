@@ -26,6 +26,7 @@ const UserMessageType = {
   Message: 'MESSAGE',
   Info: 'INFO',
   Gif: 'GIF',
+  Image: 'IMAGE',
 };
 
 const UserBotMetadata = {

@@ -11,6 +11,7 @@ The client side part of the "Chatty" project.
  
  ###### Optional objectives:
  - [ ] Image/emoji support for messages
+    - Won't do. Emojis are supported out of the box, but images cannot be stored correctly in the current architecture, so it is not feasible to do it. 
  - [ ] Page preview on link hover
  - [x] Giphy support
  - [ ] Theming/Alternative layouts
