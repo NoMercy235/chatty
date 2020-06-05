@@ -12,7 +12,7 @@ import {
 
 import * as styles from './ChatActions.module.scss';
 
-export const ChatActions = ({ onGifClick }) => {
+export const ChatActions = ({ isEncrypted, onGifClick }) => {
   const [showGifs, setShowGifs] = useState(false);
   const [gifSearchQuery, setGifSearchQuery] = useState('');
 
@@ -52,6 +52,10 @@ export const ChatActions = ({ onGifClick }) => {
       </>
     )
   };
+
+  if (isEncrypted) {
+    return null;
+  }
 
   return (
     <>

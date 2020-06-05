@@ -21,6 +21,7 @@ export const EncryptedChatTab = ({ user, partner, messages, onSendMessage }) => 
       currentUser={user}
       users={[user, partner]}
       messages={messages}
+      isEncrypted={true}
       onSendMessage={onHandleSendMessage}
       onEditMessage={console.log}
       onDeleteMessage={console.log}

@@ -6,7 +6,15 @@ import { ChatActions } from '../ChatActions/ChatActions';
 
 import * as styles from './ChatTab.module.scss';
 
-export const ChatTab = ({ currentUser, users, messages, onSendMessage, onEditMessage, onDeleteMessage }) => {
+export const ChatTab = ({
+  currentUser,
+  users,
+  messages,
+  isEncrypted = false,
+  onSendMessage,
+  onEditMessage,
+  onDeleteMessage,
+}) => {
   const [message, setMessage] = useState('');
   const messagesRef = useRef(null);
 
@@ -59,7 +67,7 @@ export const ChatTab = ({ currentUser, users, messages, onSendMessage, onEditMes
           );
         })}
       </div>
-      <ChatActions onGifClick={onGifClick}/>
+      <ChatActions isEncrypted={isEncrypted} onGifClick={onGifClick}/>
       <textarea
         id="message"
         rows={3}
