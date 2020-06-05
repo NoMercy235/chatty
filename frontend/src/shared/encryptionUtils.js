@@ -1,35 +1,36 @@
 import * as nacl from 'tweetnacl';
 import * as naclUtil from 'tweetnacl-util';
 
-import { ErrorMessage } from './constants';
-
-export const myKeys = nacl.box.keyPair();
-
-export const generateNonce = () => nacl.randomBytes(24);
-
-export const encryptMessage = (me, nonce, destinationPublicKey, message) => {
-  return nacl.box(naclUtil.decodeUTF8(message), nonce, destinationPublicKey, me.secretKey);
-};
-
-export const decryptMessage = (me, nonce, destinationPublicKey, message) => {
-  const payload = nacl.box.open(message, nonce, destinationPublicKey, me.secretKey);
-  return payload ? naclUtil.encodeUTF8(payload) : ErrorMessage.CouldNotDecrypt;
-};
+const existingKeys = JSON.parse(localStorage.getItem('keys') || '{}');
 
 export const objectToUint8 = (value) => {
   return new Uint8Array(Object.values(value));
 };
 
-export const getEncryptedPayload = (publicKey, messageText) => {
+export const myKeys = Object.keys(existingKeys).length
+  ? {
+    publicKey: objectToUint8(existingKeys.publicKey),
+    secretKey: objectToUint8(existingKeys.secretKey),
+  }
+  : nacl.box.keyPair();
+
+export const generateNonce = () => nacl.randomBytes(24);
+
+export const encryptMessage = (nonce, destinationPublicKey, message) => {
+  return nacl.box(naclUtil.decodeUTF8(message), nonce, destinationPublicKey, myKeys.secretKey);
+};
+
+export const decryptMessage = ({ nonce, publicKey: sourcePublicKey, encrypted }) => {
+  const payload = nacl.box.open(encrypted, nonce, sourcePublicKey, myKeys.secretKey);
+  return payload ? naclUtil.encodeUTF8(payload) : undefined;
+};
+
+export const getEncryptedPayload = (destinationPublicKey, messageText) => {
   const nonce = generateNonce();
 
   return {
     publicKey: myKeys.publicKey,
-    encrypted: encryptMessage(myKeys, nonce, publicKey, messageText),
+    encrypted: encryptMessage(nonce, destinationPublicKey, messageText),
     nonce,
   };
-};
-
-export const generateLocalEncryptedId = (currentMessages) => {
-  return `local-encrypted-${currentMessages.length}`;
 };

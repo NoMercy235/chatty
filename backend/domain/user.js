@@ -12,7 +12,10 @@ class User {
   }
 
   activate = () => this.isInactive = false;
-  deactivate = () => this.isInactive = true;
+  deactivate = () => {
+    this.isInactive = true;
+    this.publicKey = undefined;
+  }
 
   isValid = () => {
     return this.id !== undefined && this.name;

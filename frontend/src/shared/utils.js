@@ -40,7 +40,7 @@ const intl = new Intl.DateTimeFormat('en-GB', {
 export const formatDate = date => intl.format(date);
 
 export const createWsEndpoint = (wsHost, wsPort, localUser) => {
-  return `ws://${Config.WsHost}:${Config.WsPort}?id=${localUser.id}&name=${localUser.name}`;
+  return `ws://${Config.WsHost}:${Config.WsPort}?id=${localUser.id}&name=${localUser.name}&publicKey=${JSON.stringify(localUser.publicKey)}`;
 };
 
 export const createEncryptedChatId = (from, to) => {

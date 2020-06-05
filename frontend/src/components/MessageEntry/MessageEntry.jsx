@@ -7,7 +7,7 @@ import { UserEntry } from '../UserEntry/UserEntry';
 import { ClickableText } from '../ClickableText/ClickableText';
 import { formatDate } from '../../shared/utils';
 import { GIF_WIDTH } from '../../shared/giphy';
-import { decryptMessage, myKeys } from '../../shared/encryptionUtils';
+import { decryptMessage } from '../../shared/encryptionUtils';
 
 import * as styles from './MessageEntry.module.scss';
 
@@ -96,17 +96,21 @@ export const MessageEntry = ({ currentUser, message, source, noActions, onEditMe
       )
     }
 
+    let textToShow = message.isMessageEncrypted
+      ? decryptMessage(message.message)
+      : message.message;
+
+    if (!textToShow && message.isMessageEncrypted) {
+      return (
+        <div>
+          <span>Could not decrypt the message. The secret key might be out of sync</span>
+        </div>
+      );
+    }
+
     return (
       <div className={classNames({ [styles.infoMessage]: message.type === UserMessageType.Info})}>
-        {message.isMessageEncrypted
-          ? decryptMessage(
-            myKeys,
-            message.message.nonce,
-            isYou ? myKeys.publicKey : message.message.publicKey,
-            message.message.encrypted
-          )
-          : message.message
-        }
+        {textToShow}
       </div>
     );
   };

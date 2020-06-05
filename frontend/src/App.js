@@ -19,7 +19,7 @@ import { UsersTab } from './components/UsersTab/UsersTab';
 import { ChatTab } from './components/ChatTab/ChatTab';
 import { PickNameTab } from './components/PickNameTab/PickNameTab';
 import { createPayload } from './shared/utils';
-import { generateLocalEncryptedId, getEncryptedPayload, myKeys } from './shared/encryptionUtils';
+import { getEncryptedPayload, myKeys } from './shared/encryptionUtils';
 import { ErrorTab } from './components/ErrorTab/ErrorTab';
 
 import './App.css';
@@ -28,6 +28,7 @@ const reducer = (state, action) => {
   switch (action.type) {
     case AppEvent.SetUser:
       localStorage.setItem('user', JSON.stringify(action.data));
+      localStorage.setItem('keys', JSON.stringify(myKeys));
       return { ...state, user: new User(action.data), currentTab: AppTab.Participants };
     case AppEvent.GetUsers:
       const users = action.data.map(u => new User(u));
@@ -78,14 +79,6 @@ function App() {
   useEffect(() => {
     const ws = new WebSocket(createWsEndpoint(Config.WsHost, Config.WsPort, localUser), WsProtocol.EchoProtocol);
 
-    // TODO: reset the stored public key on "relog"
-    // ws.onopen = (() => {
-    //   console.log(localUser);
-    //   if (Object.keys(localUser)) {
-    //     ws.send(createPayload(AppEvent.SetUser, { ...localUser, publicKey: myKeys.publicKey }));
-    //   }
-    // });
-
     ws.onmessage = ((message) => {
       const payload = JSON.parse(message.data);
       dispatch(payload);
@@ -122,11 +115,9 @@ function App() {
   };
 
   const onSendEncryptedMessage = (metadata) => {
-    const currentMessagesForPair = getEncryptedMessagesForPair(state.user.id, state.encryptedChatPartner.id);
-
     const commonData = {
       ...metadata,
-      id: generateLocalEncryptedId(currentMessagesForPair),
+      id: new Date().getTime(),
       author: state.user.id,
       destination: state.encryptedChatPartner.id,
       type: UserMessageType.EncryptedMessage,

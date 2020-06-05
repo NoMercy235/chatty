@@ -4,13 +4,15 @@ import { objectToUint8 } from '../shared/encryptionUtils';
 export class Message {
   constructor ({ id, message, author, destination, createdAt, updatedAt, isDeleted, type, gif }) {
     this.id = id;
-    this.message = typeof message === 'string'
-      ? message
-      : {
-        publicKey: objectToUint8(message.publicKey),
-        encrypted: objectToUint8(message.encrypted),
-        nonce: objectToUint8(message.nonce),
-      };
+    this.message = message
+      ? typeof message === 'string'
+        ? message
+        : {
+          publicKey: objectToUint8(message.publicKey),
+          encrypted: objectToUint8(message.encrypted),
+          nonce: objectToUint8(message.nonce),
+        }
+      : undefined;
     this.author = author;
     this.destination = destination;
     this.createdAt = createdAt ? new Date(createdAt) : new Date();
