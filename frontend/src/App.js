@@ -60,7 +60,8 @@ const reducer = (state, action) => {
   }
 }
 
-const localUser = new User(jsonParseLocalStorageItem(LocalStorageItem.User));
+const localUser = jsonParseLocalStorageItem(LocalStorageItem.User);
+const localUserParsed = localUser && new User(localUser);
 
 const initialState = {
   currentTab: AppTab.PickName,
@@ -78,7 +79,10 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    const ws = new WebSocket(createWsEndpoint(Config.WsHost, Config.WsPort, localUser), WsProtocol.EchoProtocol);
+    const ws = new WebSocket(
+      createWsEndpoint(Config.WsHost, Config.WsPort, localUserParsed),
+      WsProtocol.EchoProtocol
+    );
 
     ws.onmessage = ((message) => {
       const payload = JSON.parse(message.data);
