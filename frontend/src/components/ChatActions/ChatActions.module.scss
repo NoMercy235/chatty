@@ -1,0 +1,11 @@
+@import '../../shared/scss/variables.module';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  & > *:not(:last-child) {
+    margin-right: $spacing-04;
+  }
+}
