@@ -7,10 +7,11 @@ import { UserEntry } from '../UserEntry/UserEntry';
 import { ClickableText } from '../ClickableText/ClickableText';
 import { formatDate } from '../../shared/utils';
 import { GIF_WIDTH } from '../../shared/giphy';
+import { decryptMessage, myKeys } from '../../shared/encryptionUtils';
 
 import * as styles from './MessageEntry.module.scss';
 
-export const MessageEntry = ({ currentUser, message, source, onEditMessage, onDeleteMessage }) => {
+export const MessageEntry = ({ currentUser, message, source, noActions, onEditMessage, onDeleteMessage }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedMessage, setEditedMessage] = useState(message.message);
 
@@ -60,7 +61,7 @@ export const MessageEntry = ({ currentUser, message, source, onEditMessage, onDe
   };
 
   const renderActions = () => {
-    return isYou && !message.isDeleted && (
+    return !noActions && isYou && !message.isDeleted && (
       <>
         {!message.isGif && (
           <ClickableText
@@ -97,7 +98,15 @@ export const MessageEntry = ({ currentUser, message, source, onEditMessage, onDe
 
     return (
       <div className={classNames({ [styles.infoMessage]: message.type === UserMessageType.Info})}>
-        {message.message}
+        {message.isMessageEncrypted
+          ? decryptMessage(
+            myKeys,
+            message.message.nonce,
+            isYou ? myKeys.publicKey : message.message.publicKey,
+            message.message.encrypted
+          )
+          : message.message
+        }
       </div>
     );
   };

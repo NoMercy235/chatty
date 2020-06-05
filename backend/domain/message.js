@@ -17,7 +17,7 @@ class Message {
   isValid = () => {
     return this.id &&
       (
-        ([UserMessageType.EncryptedMessage, UserMessageType.Message].includes(this.type) && this.message) ||
+        ([UserMessageType.EncryptedMessage, UserMessageType.Message].includes(this.type) && !!this.message) ||
         (this.type === UserMessageType.Gif && this.gif)
       );
   };

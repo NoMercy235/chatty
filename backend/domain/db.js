@@ -87,9 +87,8 @@ class Db {
     const [connectionId] = Object
       .entries(this.connectionsMapper)
       .find(([_, mappedUserId]) => {
-        return mappedUserId !== userId;
+        return mappedUserId === userId;
       });
-    console.log(connectionId);
     return this.connections[connectionId];
   };
 }

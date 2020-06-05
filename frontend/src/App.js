@@ -3,7 +3,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { Config } from './config';
 import { User } from './domain/user';
 import { Message } from './domain/message';
-import { AppTab, AppEvent, WsProtocol } from './shared/constants';
+import { AppTab, AppEvent, WsProtocol, UserMessageType } from './shared/constants';
 import { AppHeader } from './components/AppHeader/AppHeader';
 import { Tabs } from './components/Tabs/Tabs';
 import {
@@ -19,8 +19,8 @@ import { UsersTab } from './components/UsersTab/UsersTab';
 import { ChatTab } from './components/ChatTab/ChatTab';
 import { PickNameTab } from './components/PickNameTab/PickNameTab';
 import { createPayload } from './shared/utils';
+import { generateLocalEncryptedId, getEncryptedPayload, myKeys } from './shared/encryptionUtils';
 import { ErrorTab } from './components/ErrorTab/ErrorTab';
-import { EncryptedChatTab } from './components/EncryptedChatTab/EncryptedChatTab';
 
 import './App.css';
 
@@ -78,6 +78,14 @@ function App() {
   useEffect(() => {
     const ws = new WebSocket(createWsEndpoint(Config.WsHost, Config.WsPort, localUser), WsProtocol.EchoProtocol);
 
+    // TODO: reset the stored public key on "relog"
+    // ws.onopen = (() => {
+    //   console.log(localUser);
+    //   if (Object.keys(localUser)) {
+    //     ws.send(createPayload(AppEvent.SetUser, { ...localUser, publicKey: myKeys.publicKey }));
+    //   }
+    // });
+
     ws.onmessage = ((message) => {
       const payload = JSON.parse(message.data);
       dispatch(payload);
@@ -93,20 +101,51 @@ function App() {
   };
 
   const onPickName = name => {
-    const updatedUser = new User({ ...state.user, name });
-    socket.send(createPayload(AppEvent.SetUser, updatedUser));
+    const updatedUser = new User({
+      ...state.user,
+      name,
+      publicKey: myKeys.publicKey,
+    });
+    socket.send(createPayload(AppEvent.SetUser, updatedUser.forApi()));
   };
 
   const onChangeName = () => {
     dispatch({ type: AppEvent.TabChange, data: AppTab.PickName });
   };
 
-  const onSendMessage = event => metadata => {
+  const onSendMessage = metadata => {
     const data = {
       ...metadata,
       author: state.user.id,
     }
-    socket.send(createPayload(event, data));
+    socket.send(createPayload(AppEvent.SendMessage, data));
+  };
+
+  const onSendEncryptedMessage = (metadata) => {
+    const currentMessagesForPair = getEncryptedMessagesForPair(state.user.id, state.encryptedChatPartner.id);
+
+    const commonData = {
+      ...metadata,
+      id: generateLocalEncryptedId(currentMessagesForPair),
+      author: state.user.id,
+      destination: state.encryptedChatPartner.id,
+      type: UserMessageType.EncryptedMessage,
+    };
+    socket.send(
+      createPayload(
+        AppEvent.SendEncryptedMessage,
+        {
+          ...commonData,
+          message: getEncryptedPayload(state.encryptedChatPartner.publicKey, metadata.message),
+        }));
+    dispatch({
+      type: AppEvent.GetEncryptedMessage,
+      data: commonData,
+    });
+  };
+
+  const getEncryptedMessagesForPair = (fromId, toId) => {
+    return state.encryptedMessages[createEncryptedChatId(fromId, toId)] || [];
   };
 
   const onEditMessage = (messageId, message) => {
@@ -157,17 +196,19 @@ function App() {
           currentUser={state.user}
           users={state.users}
           messages={state.messages}
-          onSendMessage={onSendMessage(AppEvent.SendMessage)}
+          onSendMessage={onSendMessage}
           onEditMessage={onEditMessage}
           onDeleteMessage={onDeleteMessage}
         />
       )}
       {isEncryptedChatTab(state.currentTab) && (
-        <EncryptedChatTab
-          user={state.user}
-          partner={state.encryptedChatPartner}
-          messages={state.encryptedMessages[createEncryptedChatId(state.user.id, state.encryptedChatPartner.id)] || []}
-          onSendMessage={onSendMessage(AppEvent.SendEncryptedMessage)}
+        <ChatTab
+          currentUser={state.user}
+          users={[state.user, state.encryptedChatPartner]}
+          messages={getEncryptedMessagesForPair(state.user.id, state.encryptedChatPartner.id)}
+          isEncrypted={true}
+          noActions={true}
+          onSendMessage={onSendEncryptedMessage}
         />
       )}
     </>

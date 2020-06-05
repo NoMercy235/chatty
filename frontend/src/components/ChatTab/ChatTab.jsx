@@ -11,6 +11,7 @@ export const ChatTab = ({
   users,
   messages,
   isEncrypted = false,
+  noActions = false,
   onSendMessage,
   onEditMessage,
   onDeleteMessage,
@@ -61,6 +62,7 @@ export const ChatTab = ({
               message={message}
               currentUser={currentUser}
               source={author}
+              noActions={noActions}
               onEditMessage={onHandleEditMessage(message.id)}
               onDeleteMessage={onHandleDeleteMessage(message.id)}
             />

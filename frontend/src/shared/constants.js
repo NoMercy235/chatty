@@ -33,3 +33,7 @@ export const UserMessageType = {
 export const WsProtocol = {
   EchoProtocol: 'echo-protocol',
 };
+
+export const ErrorMessage = {
+  CouldNotDecrypt: 'Could not decrypt the message. The public key might be out of sync',
+};
