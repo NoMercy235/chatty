@@ -7,6 +7,10 @@
   padding: $spacing-04;
   overflow: auto;
 
+  & > *:not(:last-child) {
+    margin-bottom: $spacing-04;
+  }
+
   .messagesContainer {
     flex: 1;
     display: flex;
@@ -15,7 +19,6 @@
   }
 
   .textArea {
-    margin-top: $spacing-04;
     resize: none;
     min-height: $message-text-area-min-height;
   }
