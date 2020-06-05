@@ -31,7 +31,7 @@ export const ChatActions = ({ onGifClick }) => {
       : gf.trending({ offset, limit: GIPHY_REQUEST_LIMIT })
   };
 
-  const renderGifsCarousel = () => {
+  const renderGifPicker = () => {
     if (!showGifs) return null
     return (
       <>
@@ -55,7 +55,7 @@ export const ChatActions = ({ onGifClick }) => {
 
   return (
     <>
-      {renderGifsCarousel()}
+      {renderGifPicker()}
       <div className={styles.container}>
         <button onClick={onGiphyBtnClick}>Giphy</button>
       </div>
