@@ -4,7 +4,11 @@ import { UserEntry } from '../UserEntry/UserEntry';
 
 import * as styles from './UsersTab.module.scss';
 
-export const UsersTab = ({ currentUser, users }) => {
+export const UsersTab = ({ currentUser, users, onUserClick }) => {
+  const onHandleUserClick = (isYou, user) => {
+    !isYou && onUserClick(user);
+  };
+
   return users.map(user => {
     return (
       <UserEntry
@@ -12,6 +16,7 @@ export const UsersTab = ({ currentUser, users }) => {
         className={styles.userRow}
         user={user}
         isYou={user.id === currentUser.id}
+        onUserClick={onHandleUserClick}
       />
     );
   });

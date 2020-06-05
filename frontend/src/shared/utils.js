@@ -17,6 +17,10 @@ export const isChatTab = (currentTab) => {
   return currentTab === AppTab.Chat;
 };
 
+export const isEncryptedChatTab = (currentTab) => {
+  return currentTab === AppTab.EncryptedChat;
+};
+
 export const createPayload = (eventType, data) => {
   return JSON.stringify({
     type: eventType,

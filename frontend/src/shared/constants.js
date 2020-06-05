@@ -6,6 +6,7 @@ export const AppEvent = {
   EditMessage: 'EDIT_MESSAGE',
   DeleteMessage: 'DELETE_MESSAGE',
   GetMessages: 'GET_MESSAGES',
+  SetEncryptedChatPartner: 'SET_ENCRYPTED_CHAT_PARTNER',
 };
 
 export const AppTab = {
@@ -13,6 +14,7 @@ export const AppTab = {
   PickName: 'PICK_NAME',
   Participants: 'PARTICIPANTS',
   Chat: 'CHAT',
+  EncryptedChat: 'ENCRYPTED_CHAT',
 };
 
 export const KeyCode = {

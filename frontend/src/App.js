@@ -6,12 +6,20 @@ import { Message } from './domain/message';
 import { AppTab, AppEvent, WsProtocol } from './shared/constants';
 import { AppHeader } from './components/AppHeader/AppHeader';
 import { Tabs } from './components/Tabs/Tabs';
-import { createWsEndpoint, isChatTab, isErrorTab, isParticipantsTab, isPickNameTab } from './shared/utils';
+import {
+  createWsEndpoint,
+  isChatTab,
+  isEncryptedChatTab,
+  isErrorTab,
+  isParticipantsTab,
+  isPickNameTab
+} from './shared/utils';
 import { UsersTab } from './components/UsersTab/UsersTab';
 import { ChatTab } from './components/ChatTab/ChatTab';
 import { PickNameTab } from './components/PickNameTab/PickNameTab';
 import { createPayload } from './shared/utils';
 import { ErrorTab } from './components/ErrorTab/ErrorTab';
+import { EncryptedChatTab } from './components/EncryptedChatTab/EncryptedChatTab';
 
 import './App.css';
 
@@ -33,6 +41,8 @@ const reducer = (state, action) => {
       return { ...state, messages: [...state.messages, new Message(action.data)] };
     case AppEvent.GetMessages:
       return { ...state, messages: action.data.map(m => new Message(m)) };
+    case AppEvent.SetEncryptedChatPartner:
+      return { ...state, encryptedChatPartner: action.data };
     default:
       return state;
   }
@@ -46,6 +56,7 @@ const initialState = {
   users: [],
   activeUsers: [],
   messages: [],
+  encryptedChatPartner: undefined,
 };
 
 
@@ -95,6 +106,11 @@ function App() {
     socket.send(createPayload(AppEvent.DeleteMessage, messageId));
   };
 
+  const onUserClick = user => {
+    dispatch({ type: AppEvent.SetEncryptedChatPartner, data: user });
+    dispatch({ type: AppEvent.TabChange, data: AppTab.EncryptedChat });
+  };
+
   if (isErrorTab(state.currentTab)) {
     return (
       <ErrorTab />
@@ -122,6 +138,7 @@ function App() {
         <UsersTab
           currentUser={state.user}
           users={state.activeUsers}
+          onUserClick={onUserClick}
         />
       )}
       {isChatTab(state.currentTab) && (
@@ -132,6 +149,11 @@ function App() {
           onSendMessage={onSendMessage}
           onEditMessage={onEditMessage}
           onDeleteMessage={onDeleteMessage}
+        />
+      )}
+      {isEncryptedChatTab(state.currentTab) && (
+        <EncryptedChatTab
+          partner={state.encryptedChatPartner}
         />
       )}
     </>
