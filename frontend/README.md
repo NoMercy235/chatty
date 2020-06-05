@@ -12,7 +12,7 @@ The client side part of the "Chatty" project.
  ###### Optional objectives:
  - [ ] Image/emoji support for messages
  - [ ] Page preview on link hover
- - [ ] Giphy support
+ - [x] Giphy support
  - [ ] Theming/Alternative layouts
  - [ ] End to end encryption for peer-to-peer communication
 

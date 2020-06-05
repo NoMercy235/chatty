@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import * as classNames from 'classnames';
 import { Gif } from '@giphy/react-components';
 
-import { GIF_WIDTH, UserMessageType } from '../../shared/constants';
+import { UserMessageType } from '../../shared/constants';
 import { UserEntry } from '../UserEntry/UserEntry';
 import { ClickableText } from '../ClickableText/ClickableText';
 import { formatDate } from '../../shared/utils';
+import { GIF_WIDTH } from '../../shared/giphy';
 
 import * as styles from './MessageEntry.module.scss';
 
