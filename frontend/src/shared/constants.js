@@ -22,8 +22,13 @@ export const KeyCode = {
 export const UserMessageType = {
   Message: 'MESSAGE',
   Info: 'INFO',
+  Gif: 'GIF',
 };
 
 export const WsProtocol = {
   EchoProtocol: 'echo-protocol',
 };
+
+export const GIF_CAROUSEL_HEIGHT = 200;
+export const GIF_WIDTH = 200;
+export const GIPHY_REQUEST_LIMIT = 10;

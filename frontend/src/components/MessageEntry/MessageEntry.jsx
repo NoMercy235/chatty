@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import * as classNames from 'classnames';
+import { Gif } from '@giphy/react-components';
 
-import { UserMessageType } from '../../shared/constants';
+import { GIF_WIDTH, UserMessageType } from '../../shared/constants';
 import { UserEntry } from '../UserEntry/UserEntry';
 import { ClickableText } from '../ClickableText/ClickableText';
 import { formatDate } from '../../shared/utils';
@@ -60,11 +61,13 @@ export const MessageEntry = ({ currentUser, message, source, onEditMessage, onDe
   const renderActions = () => {
     return isYou && !message.isDeleted && (
       <>
-        <ClickableText
-          className={styles.action}
-          text="Edit"
-          onClick={onEditBtnClick}
-        />
+        {!message.isGif && (
+          <ClickableText
+            className={styles.action}
+            text="Edit"
+            onClick={onEditBtnClick}
+          />
+        )}
         <ClickableText
           className={styles.action}
           text="Delete"
@@ -85,6 +88,12 @@ export const MessageEntry = ({ currentUser, message, source, onEditMessage, onDe
   };
 
   const renderMessage = () => {
+    if (message.isGif) {
+      return (
+        <Gif gif={message.gif} width={GIF_WIDTH}/>
+      )
+    }
+
     return (
       <div className={classNames({ [styles.infoMessage]: message.type === UserMessageType.Info})}>
         {message.message}

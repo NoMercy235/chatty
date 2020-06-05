@@ -2,7 +2,7 @@ const { idGenerator } = require('../lib/shared/utils');
 const { UserMessageType } = require('../lib/shared/constants');
 
 class Message {
-  constructor ({ id, message, author, createdAt, updatedAt, isDeleted, type }) {
+  constructor ({ id, message, author, createdAt, updatedAt, isDeleted, type, gif }) {
     this.id = id || idGenerator.next().value;
     this.message = message;
     this.author = author;
@@ -10,10 +10,15 @@ class Message {
     this.updatedAt = updatedAt || new Date();
     this.isDeleted = isDeleted || false;
     this.type = type || UserMessageType.Message;
+    this.gif = gif;
   }
 
   isValid = () => {
-    return this.id && this.message;
+    return this.id &&
+      (
+        (this.type === UserMessageType.Message && this.message) ||
+        (this.type === UserMessageType.Gif && this.gif)
+      );
   };
 
   forApi = () => {
@@ -25,6 +30,7 @@ class Message {
       updatedAt: this.updatedAt.toISOString(),
       isDeleted: this.isDeleted,
       type: this.type,
+      gif: this.gif,
     };
   };
 }

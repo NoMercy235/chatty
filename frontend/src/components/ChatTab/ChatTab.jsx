@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { Carousel } from '@giphy/react-components';
 
-import { KeyCode } from '../../shared/constants';
+import { GIF_CAROUSEL_HEIGHT, KeyCode, UserMessageType } from '../../shared/constants';
 import { MessageEntry } from '../MessageEntry/MessageEntry';
+import { fetchGifs } from '../../shared/giphy';
 
 import * as styles from './ChatTab.module.scss';
 
@@ -19,11 +21,20 @@ export const ChatTab = ({ currentUser, users, messages, onSendMessage, onEditMes
 
   const onMessageKeyDown = e => {
     if (e.keyCode === KeyCode.Enter) {
-      onSendMessage(message);
+      onSendMessage({ message, type: UserMessageType.Message });
       setMessage('');
       e.stopPropagation();
       e.preventDefault();
     }
+  };
+
+  const onGifClicked = (gif, e) => {
+    onSendMessage({
+      gif,
+      type: UserMessageType.Gif,
+    });
+    e.stopPropagation();
+    e.preventDefault();
   };
 
   const onHandleEditMessage = (messageId) => (message) => {
@@ -51,6 +62,7 @@ export const ChatTab = ({ currentUser, users, messages, onSendMessage, onEditMes
           );
         })}
       </div>
+      <Carousel gifHeight={GIF_CAROUSEL_HEIGHT} fetchGifs={fetchGifs} onGifClick={onGifClicked} />
       <textarea
         id="message"
         rows={3}

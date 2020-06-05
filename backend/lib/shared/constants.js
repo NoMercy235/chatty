@@ -25,6 +25,7 @@ const Event = {
 const UserMessageType = {
   Message: 'MESSAGE',
   Info: 'INFO',
+  Gif: 'GIF',
 };
 
 const UserBotMetadata = {

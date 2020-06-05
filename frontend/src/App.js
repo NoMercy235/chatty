@@ -79,9 +79,9 @@ function App() {
     dispatch({ type: AppEvent.TabChange, data: AppTab.PickName });
   };
 
-  const onSendMessage = message => {
+  const onSendMessage = metadata => {
     const data = {
-      message,
+      ...metadata,
       author: state.user.id,
     }
     socket.send(createPayload(AppEvent.SendMessage, data));
