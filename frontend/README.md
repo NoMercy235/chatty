@@ -15,7 +15,7 @@ The client side part of the "Chatty" project.
 - [ ] Page preview on link hover
  - [x] Giphy support
  - [ ] Theming/Alternative layouts
- - [ ] End to end encryption for peer-to-peer communication
+ - [x] End to end encryption for peer-to-peer communication
 
 #### How to run
 - Create the file `./src/config.js` with the following format:
