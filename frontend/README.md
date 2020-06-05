@@ -11,7 +11,8 @@ The client side part of the "Chatty" project.
  
  ###### Optional objectives:
  - [ ] Image/emoji support for messages
- - [ ] Page preview on link hover
+     - Won't do. Emojis are supported out of the box, but images cannot be stored correctly in the current architecture, so it is not feasible to do it. 
+- [ ] Page preview on link hover
  - [x] Giphy support
  - [ ] Theming/Alternative layouts
  - [ ] End to end encryption for peer-to-peer communication
@@ -21,7 +22,8 @@ The client side part of the "Chatty" project.
 ```javascript
 export const Config = {
   WsHost: 'host',
-  WsPort: 1234
+  WsPort: 1234,
+  GiphyAPI: 'get it from https://developers.giphy.com/',
 };
 ```
 - Run `npm run start`
