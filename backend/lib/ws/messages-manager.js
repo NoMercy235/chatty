@@ -11,7 +11,15 @@ const handleMessages = (wsServer, action) => {
       message = new Message(action.data);
       if (!message.isValid()) return;
       Db.addMessage(message);
-      wsServer.broadcast(createPayload(Event.SendMessage, message));
+      wsServer.broadcast(createPayload(Event.SendMessage, message.forApi()));
+      break;
+    case Event.SendEncryptedMessage:
+      message = new Message(action.data);
+      if (!message.isValid()) return;
+      const fromConnection = Db.getConnectionByUserId(message.author);
+      const destinationConnection = Db.getConnectionByUserId(message.destination);
+      fromConnection.send(createPayload(Event.GetEncryptedMessage, message.forApi()));
+      destinationConnection.send(createPayload(Event.GetEncryptedMessage, message.forApi()));
       break;
     case Event.EditMessage:
       message = new Message(action.data);

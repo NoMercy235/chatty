@@ -69,11 +69,28 @@ class Db {
   };
 
   linkUserToConnection = (userId, connectionId) => {
+    Object
+      .entries(this.connectionsMapper)
+      .forEach(([mappedConnectionId, mappedUserId]) => {
+        if (mappedUserId === userId) {
+          delete this.connectionsMapper[mappedConnectionId];
+        }
+      });
     this.connectionsMapper[connectionId] = userId;
   };
 
   getUserByConnectionId = connectionId => {
     return this.getUser(this.connectionsMapper[connectionId]);
+  };
+
+  getConnectionByUserId = userId => {
+    const [connectionId] = Object
+      .entries(this.connectionsMapper)
+      .find(([_, mappedUserId]) => {
+        return mappedUserId !== userId;
+      });
+    console.log(connectionId);
+    return this.connections[connectionId];
   };
 }
 

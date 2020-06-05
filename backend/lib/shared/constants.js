@@ -12,9 +12,11 @@ const Event = {
   SetUser: 'SET_USER',
   GetUsers: 'GET_USERS',
   SendMessage: 'SEND_MESSAGE',
+  SendEncryptedMessage: 'SEND_ENCRYPTED_MESSAGE',
   EditMessage: 'EDIT_MESSAGE',
   DeleteMessage: 'DELETE_MESSAGE',
   GetMessages: 'GET_MESSAGES',
+  GetEncryptedMessage: 'GET_ENCRYPTED_MESSAGE',
   WsNative: {
     Request: 'request',
     Message: 'message',
@@ -24,6 +26,7 @@ const Event = {
 
 const UserMessageType = {
   Message: 'MESSAGE',
+  EncryptedMessage: 'ENCRYPTED_MESSAGE',
   Info: 'INFO',
   Gif: 'GIF',
 };

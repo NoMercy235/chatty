@@ -3,9 +3,11 @@ export const AppEvent = {
   GetUsers: 'GET_USERS',
   TabChange: 'TAB_CHANGE',
   SendMessage: 'SEND_MESSAGE',
+  SendEncryptedMessage: 'SEND_ENCRYPTED_MESSAGE',
   EditMessage: 'EDIT_MESSAGE',
   DeleteMessage: 'DELETE_MESSAGE',
   GetMessages: 'GET_MESSAGES',
+  GetEncryptedMessage: 'GET_ENCRYPTED_MESSAGE',
   SetEncryptedChatPartner: 'SET_ENCRYPTED_CHAT_PARTNER',
 };
 
@@ -23,6 +25,7 @@ export const KeyCode = {
 
 export const UserMessageType = {
   Message: 'MESSAGE',
+  EncryptedMessage: 'ENCRYPTED_MESSAGE',
   Info: 'INFO',
   Gif: 'GIF',
 };

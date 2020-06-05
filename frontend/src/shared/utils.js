@@ -42,3 +42,7 @@ export const formatDate = date => intl.format(date);
 export const createWsEndpoint = (wsHost, wsPort, localUser) => {
   return `ws://${Config.WsHost}:${Config.WsPort}?id=${localUser.id}&name=${localUser.name}`;
 };
+
+export const createEncryptedChatId = (from, to) => {
+  return from > to ? `${to}-${from}` : `${from}-${to}`;
+};
