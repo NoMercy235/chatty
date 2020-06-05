@@ -22,7 +22,8 @@ The client side part of the "Chatty" project.
 ```javascript
 export const Config = {
   WsHost: 'host',
-  WsPort: 1234
+  WsPort: 1234,
+  GiphyAPI: 'get it from https://developers.giphy.com/',
 };
 ```
 - Run `npm run start`
