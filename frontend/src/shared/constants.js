@@ -33,3 +33,8 @@ export const UserMessageType = {
 export const WsProtocol = {
   EchoProtocol: 'echo-protocol',
 };
+
+export const LocalStorageItem = {
+  User: 'user',
+  Keys: 'keys',
+};

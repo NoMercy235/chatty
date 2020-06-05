@@ -3,7 +3,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { Config } from './config';
 import { User } from './domain/user';
 import { Message } from './domain/message';
-import { AppTab, AppEvent, WsProtocol, UserMessageType } from './shared/constants';
+import { AppTab, AppEvent, WsProtocol, UserMessageType, LocalStorageItem } from './shared/constants';
 import { AppHeader } from './components/AppHeader/AppHeader';
 import { Tabs } from './components/Tabs/Tabs';
 import {
@@ -27,8 +27,8 @@ import './App.css';
 const reducer = (state, action) => {
   switch (action.type) {
     case AppEvent.SetUser:
-      localStorage.setItem('user', JSON.stringify(action.data));
-      localStorage.setItem('keys', JSON.stringify(myKeys));
+      localStorage.setItem(LocalStorageItem.User, JSON.stringify(action.data));
+      localStorage.setItem(LocalStorageItem.Keys, JSON.stringify(myKeys));
       return { ...state, user: new User(action.data), currentTab: AppTab.Participants };
     case AppEvent.GetUsers:
       const users = action.data.map(u => new User(u));
@@ -59,7 +59,7 @@ const reducer = (state, action) => {
   }
 }
 
-const localUser = new User(JSON.parse(localStorage.getItem('user') || '{}'));
+const localUser = new User(JSON.parse(localStorage.getItem(LocalStorageItem.User) || '{}'));
 
 const initialState = {
   currentTab: AppTab.PickName,

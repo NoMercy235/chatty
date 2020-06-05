@@ -1,7 +1,9 @@
 import * as nacl from 'tweetnacl';
 import * as naclUtil from 'tweetnacl-util';
 
-const existingKeys = JSON.parse(localStorage.getItem('keys') || '{}');
+import { LocalStorageItem } from './constants';
+
+const existingKeys = JSON.parse(localStorage.getItem(LocalStorageItem.Keys) || '{}');
 
 export const objectToUint8 = (value) => {
   return new Uint8Array(Object.values(value));
