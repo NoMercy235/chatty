@@ -13,7 +13,8 @@ import {
   isEncryptedChatTab,
   isErrorTab,
   isParticipantsTab,
-  isPickNameTab
+  isPickNameTab,
+  jsonParseLocalStorageItem
 } from './shared/utils';
 import { UsersTab } from './components/UsersTab/UsersTab';
 import { ChatTab } from './components/ChatTab/ChatTab';
@@ -59,7 +60,7 @@ const reducer = (state, action) => {
   }
 }
 
-const localUser = new User(JSON.parse(localStorage.getItem(LocalStorageItem.User) || '{}'));
+const localUser = new User(jsonParseLocalStorageItem(LocalStorageItem.User));
 
 const initialState = {
   currentTab: AppTab.PickName,

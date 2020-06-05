@@ -39,10 +39,20 @@ const intl = new Intl.DateTimeFormat('en-GB', {
 
 export const formatDate = date => intl.format(date);
 
+const parseQueryParams = queryParams => {
+  return Object.entries(queryParams).map(([key, value]) => `${key}=${value}`).join('&');
+};
+
 export const createWsEndpoint = (wsHost, wsPort, localUser) => {
-  return `ws://${Config.WsHost}:${Config.WsPort}?id=${localUser.id}&name=${localUser.name}&publicKey=${JSON.stringify(localUser.publicKey)}`;
+  const queryParams = localUser ? { ...localUser, publicKey: JSON.stringify(localUser.publicKey) } : {};
+  return `ws://${Config.WsHost}:${Config.WsPort}?${parseQueryParams(queryParams)}`;
 };
 
 export const createEncryptedChatId = (from, to) => {
   return from > to ? `${to}-${from}` : `${from}-${to}`;
+};
+
+export const jsonParseLocalStorageItem = itemName => {
+  const value = localStorage.getItem(itemName);
+  return value ? JSON.parse(value) : undefined;
 };
