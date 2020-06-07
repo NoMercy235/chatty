@@ -49,7 +49,14 @@ wsServer.on(Event.WsNative.Request, function(request) {
   const connectionId = Db.addConnection(connection);
   const user = Db.getUser(request.resourceURL.query.id);
   if (user) {
-    handleUsersMessages(wsServer, { type: Event.ActivateUser, data: user }, connectionId);
+    handleUsersMessages(
+      wsServer,
+      {
+        type: Event.ActivateUser,
+        data: { ...user, publicKey: request.resourceURL.query.publicKey },
+      },
+      connectionId
+    );
   }
 
   connection.on(Event.WsNative.Message, function(message) {

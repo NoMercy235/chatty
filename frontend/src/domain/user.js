@@ -8,7 +8,7 @@ export class User {
     this.publicKey = publicKey
       ? publicKey instanceof Uint8Array
         ? publicKey
-        : objectToUint8(publicKey)
+        : objectToUint8(typeof publicKey === 'string' ? JSON.parse(publicKey) : publicKey)
       : undefined;
   }
 

@@ -28,9 +28,10 @@ import './App.css';
 const reducer = (state, action) => {
   switch (action.type) {
     case AppEvent.SetUser:
-      localStorage.setItem(LocalStorageItem.User, JSON.stringify(action.data));
+      const user = new User(action.data);
+      localStorage.setItem(LocalStorageItem.User, JSON.stringify(user.forApi()));
       localStorage.setItem(LocalStorageItem.Keys, JSON.stringify(myKeys));
-      return { ...state, user: new User(action.data), currentTab: AppTab.Participants };
+      return { ...state, user, currentTab: AppTab.Participants };
     case AppEvent.GetUsers:
       const users = action.data.map(u => new User(u));
       return {

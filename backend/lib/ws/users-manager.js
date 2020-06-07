@@ -27,8 +27,9 @@ const handleUsersMessages = (wsServer, action, connectionId) => {
       break;
     case Event.ActivateUser:
       user = action.data;
-      Db.activateUser(user.id);
-      syncUser(connectionId, user);
+      Db.activateUser(user.id, user.publicKey);
+      const dbUser = Db.getUser(user.id);
+      syncUser(connectionId, dbUser);
   }
 };
 
