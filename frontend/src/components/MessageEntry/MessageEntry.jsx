@@ -51,7 +51,7 @@ export const MessageEntry = ({ currentUser, message, source, noActions, onEditMe
         <div className={classNames(styles.date, styles.when)}>
           <i>{formatDate(message.createdAt)}</i>
         </div>
-        {message.isEdited && (
+        {message.isEdited && !message.isDeleted && (
           <div className={styles.date}>
             (Edited on <i>{formatDate(message.updatedAt)}</i>)
           </div>
