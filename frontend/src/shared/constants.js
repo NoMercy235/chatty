@@ -38,3 +38,5 @@ export const LocalStorageItem = {
   User: 'user',
   Keys: 'keys',
 };
+
+export const MEETINGBOT_USER_ID = 0;

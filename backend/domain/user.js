@@ -5,7 +5,7 @@ class User {
   static bot = new User(UserBotMetadata);
 
   constructor ({ id, name, isInactive, publicKey } = {}) {
-    this.id = id || idGenerator.next().value;
+    this.id = id !== undefined ? id : idGenerator.next().value;
     this.name = name;
     this.isInactive = isInactive || false;
     this.publicKey = publicKey;
