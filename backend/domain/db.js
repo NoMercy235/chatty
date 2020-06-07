@@ -47,7 +47,7 @@ class Db {
   deleteMessage = (messageId) => {
     const message = this.getMessage(messageId);
     message.isDeleted = true;
-    message.message = 'This message has been deleted';
+    message.message = '';
     message.gif = undefined;
   };
 

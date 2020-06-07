@@ -110,7 +110,7 @@ export const MessageEntry = ({ currentUser, message, source, noActions, onEditMe
 
     return (
       <div className={classNames({ [styles.infoMessage]: message.type === UserMessageType.Info})}>
-        {textToShow}
+        {textToShow || 'This message has been deleted'}
       </div>
     );
   };
