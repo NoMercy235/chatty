@@ -12,6 +12,7 @@ This project consists of two applications:
     - No authentication
     - No tests
     - No DB (messages/active users will be kept in memory; images, if implemented, will be kept on disk with a path reference in memory)
+    - No focus on UI elements (colors/texts/fonts/icons)
  - Duplicate names will be allowed, but they will reference different users
  - The information assigned by the server will be stored in the local storage of the browser to persist the user
  - There is no security enforced:
