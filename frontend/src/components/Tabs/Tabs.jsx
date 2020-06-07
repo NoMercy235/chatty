@@ -1,14 +1,20 @@
 import React from 'react';
 import * as classNames from 'classnames';
 
-import { isChatTab, isParticipantsTab } from '../../shared/utils';
+import { isChatTab, isEncryptedChatTab, isParticipantsTab } from '../../shared/utils';
 import { AppTab } from '../../shared/constants';
 
 import * as styles from './Tabs.module.scss';
 
-export const Tabs = ({ selected, noOfUsers, onTabChange }) => {
+export const Tabs = ({ selected, noOfUsers, encryptedChatPartner, onTabChange }) => {
   const onTabClick = tab => () => {
     onTabChange(tab);
+  };
+
+  const getEncryptedChatPartnerName = () => {
+    return encryptedChatPartner
+      ? <span>({encryptedChatPartner.name})</span>
+      : '';
   };
 
   return (
@@ -30,6 +36,16 @@ export const Tabs = ({ selected, noOfUsers, onTabChange }) => {
         onClick={onTabClick(AppTab.Chat)}
       >
         Chat
+      </h3>
+      <h3
+        className={classNames(
+          styles.tabBtn,
+          { [styles.selected]: isEncryptedChatTab(selected) },
+          { [styles.disabled]: !encryptedChatPartner },
+        )}
+        {...(encryptedChatPartner && { onClick: onTabClick(AppTab.EncryptedChat) })}
+      >
+        Encrypted chat {getEncryptedChatPartnerName()}
       </h3>
     </div>
   );

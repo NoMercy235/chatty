@@ -179,6 +179,7 @@ function App() {
       <Tabs
         selected={state.currentTab}
         noOfUsers={state.activeUsers.length}
+        encryptedChatPartner={state.encryptedChatPartner}
         onTabChange={onTabChange}
       />
       {isParticipantsTab(state.currentTab) && (

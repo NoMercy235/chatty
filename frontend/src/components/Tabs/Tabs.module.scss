@@ -21,5 +21,14 @@
     &.selected {
       background-color: $white-bg-color;
     }
+
+    &.disabled {
+      background-color: $disabled-bg-color;
+
+      &:hover {
+        cursor: default;
+        background-color: $disabled-bg-color;
+      }
+    }
   }
 }
