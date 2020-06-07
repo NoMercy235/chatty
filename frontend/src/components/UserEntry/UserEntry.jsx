@@ -3,9 +3,9 @@ import * as classNames from 'classnames';
 
 import * as styles from './UserEntry.module.scss';
 
-export const UserEntry = ({ className, user, isYou, onUserClick }) => {
+export const UserEntry = ({ className, user, isMe, onUserClick }) => {
   const onHandleUserClick = () => {
-    onUserClick && onUserClick(isYou, user);
+    onUserClick && onUserClick(isMe, user);
   };
 
   return (
@@ -13,8 +13,8 @@ export const UserEntry = ({ className, user, isYou, onUserClick }) => {
       className={classNames(styles.container, className)}
       onClick={onHandleUserClick}
     >
-      <span className={classNames({ [styles.name]: isYou })}>{user.name}</span>
-      {isYou && <i className={styles.you}>(You)</i>}
+      <span className={classNames({ [styles.name]: isMe })}>{user.name}</span>
+      {isMe && <i className={styles.me}>(You)</i>}
     </div>
   );
 };

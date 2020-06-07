@@ -5,8 +5,8 @@ import { UserEntry } from '../UserEntry/UserEntry';
 import * as styles from './UsersTab.module.scss';
 
 export const UsersTab = ({ currentUser, users, onUserClick }) => {
-  const onHandleUserClick = (isYou, user) => {
-    !isYou && onUserClick(user);
+  const onHandleUserClick = (isMe, user) => {
+    !isMe && onUserClick(user);
   };
 
   return users.map(user => {
@@ -15,7 +15,7 @@ export const UsersTab = ({ currentUser, users, onUserClick }) => {
         key={user.id}
         className={styles.userRow}
         user={user}
-        isYou={user.id === currentUser.id}
+        isMe={user.id === currentUser.id}
         onUserClick={onHandleUserClick}
       />
     );

@@ -15,7 +15,7 @@ export const MessageEntry = ({ currentUser, message, source, noActions, onEditMe
   const [isEditing, setIsEditing] = useState(false);
   const [editedMessage, setEditedMessage] = useState(message.message);
 
-  const isYou = currentUser.id === source.id;
+  const isMe = currentUser.id === source.id;
 
   const onChangeEditedMessage = e => setEditedMessage(e.target.value);
 
@@ -38,7 +38,7 @@ export const MessageEntry = ({ currentUser, message, source, noActions, onEditMe
         <div
           className={classNames(styles.source, { [styles.removed]: source.isInactive })}
         >
-          <UserEntry user={source} isYou={isYou} />
+          <UserEntry user={source} isMe={isMe} />
         </div>
         {source.isInactive && <i className={styles.inactiveText}>(inactive)</i>}
       </>
@@ -61,7 +61,7 @@ export const MessageEntry = ({ currentUser, message, source, noActions, onEditMe
   };
 
   const renderActions = () => {
-    return !noActions && isYou && !message.isDeleted && (
+    return !noActions && isMe && !message.isDeleted && (
       <>
         {!message.isGif && (
           <ClickableText
