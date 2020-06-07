@@ -3,4 +3,9 @@
 .userRow {
   padding: $spacing-05;
   border-bottom: 1px solid $user-separation-border-color;
+
+  &.selectable:hover {
+    cursor: pointer;
+    background-color: $gray-bg-color;
+  }
 }
